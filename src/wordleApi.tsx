@@ -1,4 +1,6 @@
 import { Fragment, KeyboardEvent, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 export interface InputInterface {
   inputId: Number,
@@ -12,6 +14,7 @@ export interface StateInterface {
   insertedLetters: String[];
   statePicture: InputInterface[][]
 };
+
 
 export function WordleApi() {
 
@@ -39,16 +42,31 @@ export function WordleApi() {
       }
     }
   }
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (window.location.pathname === '/') {
+      navigate('/home')
+    }
+  }, [navigate])
   
-  useEffect(() => {  
-    fetch(`https://random-word-api.herokuapp.com/word?length=5`)
-    .then(response => response.json())
-    .then(data => data[0])
-    .then((value) => gameState.randomWord = value.toUpperCase())
-    .then(() => setGameState(gameState))
-    .catch(() => gameState.randomWord = 'error')
+/*   useEffect(() => {
+    console.log('fetch random word')
+
+    const options = {
+      method: 'GET',
+      headers: {
+        'X-RapidAPI-Key': '50fc996453msh7e9f2917bec60fbp1ddd25jsn7557a1b81a68',
+        'X-RapidAPI-Host': 'random-words5.p.rapidapi.com'
+      }
+    };
+    fetch('https://random-words5.p.rapidapi.com/getRandom?wordLength=5', options)
+    .then(response => response.text())
+    .then((word) => gameState.randomWord = word.toUpperCase())
+    .catch(err => console.log(err))
   
-  },);
+  },); */
 
   const inputBoard = () => {
     console.log(gameState)
@@ -58,6 +76,7 @@ export function WordleApi() {
       </div>
     )
   }
+
 
   function createInputRow (row: InputInterface[], i: Number){
     return (
@@ -72,6 +91,30 @@ export function WordleApi() {
     )
   }
 
+  const handleInputInKeyboard = (target: HTMLInputElement, row: InputInterface[]) => {
+    console.log([...gameState.statePicture])
+    const keyboard = target.parentNode?.nextSibling as HTMLElement;
+    const allChar = keyboard.querySelectorAll('button');
+    row.forEach(input => {
+      allChar.forEach(button => {
+        if (button.id === input.inputValue) {
+          button.classList.add('btn','disabled');
+          if (input.inputStatus === 'bull') {
+            if (button.classList.contains('btn-warning')) {
+              button.classList.remove('btn-warning')
+            }
+            button.classList.add('btn-success');
+          } else if ( input.inputStatus === 'cow') {
+            if (!button.classList.contains('btn-success')) {
+              button.classList.add('btn-warning');
+            }
+          }}
+      })
+    })
+    
+  }
+
+
   const handleInput = (event: KeyboardEvent<HTMLInputElement>) => {
 
     if (!/^[a-zA-Z]$/.test(event.key)) return (event.currentTarget.value = '', event.currentTarget.focus());
@@ -80,6 +123,8 @@ export function WordleApi() {
     let targetSibling: HTMLInputElement = currentTarget.nextElementSibling as HTMLInputElement;
 
     currentTarget.value = currentTarget.value.toUpperCase();
+    
+
     gameState.statePicture.forEach((inputRow: InputInterface[]) => {
       inputRow.forEach((inputItem: InputInterface, index: number) => {
         if (inputItem.inputId.toString() === currentTarget.id) {
@@ -96,6 +141,10 @@ export function WordleApi() {
           if (index === inputRow.length - 1) {
             handleInputWord(inputRow, currentTarget);
           }
+          if (inputRow.indexOf(inputItem) === 4) {
+            console.log('before')
+            handleInputInKeyboard(currentTarget, inputRow);
+          }
         }
       })
     })
@@ -103,8 +152,19 @@ export function WordleApi() {
     if (currentTarget.nextElementSibling !== null) {
       targetSibling.removeAttribute('disabled')
       targetSibling.focus()
+    } else {
+      for (let el of gameState.statePicture[5]) {
+        if (el.inputStatus !== 'bull') {
+          setTimeout(() => {
+            alert('You fail! The word is: ' + gameState.randomWord);
+            window.location.reload();
+          },500);
+          return;
+        }
+      }
     }
   }
+
 
   function handleInputWord(inputRow: InputInterface[], element: HTMLInputElement){
     let currentElement: HTMLInputElement = element as HTMLInputElement;
@@ -123,6 +183,7 @@ export function WordleApi() {
     if (BullLetters === 5) {
       setTimeout(() => {
         alert('Success! You got the right word: ' + gameState.randomWord);
+        window.location.reload();
       })
     }
   }
@@ -133,11 +194,11 @@ export function WordleApi() {
     return (
       keyboardArray.map(char => {
         if (char === 'Enter') {
-        return <button type="button" className="enter" key={char}><p>{char}</p></button>
+        return <button type="button" className="enter" key={char} id={char}><p>{char}</p></button>
         } else if (char === 'BckSpc') {
-         return <button type="button" className="backSpace" key={char}><p>{char}</p></button>
+         return <button type="button" className="backSpace" key={char} id={char}><p>{char}</p></button>
         } else {
-        return  <button type="button" key={char}><p>{char}</p></button>
+        return  <button type="button" key={char} id={char}><p>{char}</p></button>
         }
       })
     )

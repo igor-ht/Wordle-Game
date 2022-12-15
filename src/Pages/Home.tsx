@@ -17,7 +17,7 @@ export function HomePage() {
         </button>
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav">
-            <Link className="nav-link fs-4" aria-current="page" to={'/'}>Home</Link>
+            <Link className="nav-link fs-4" aria-current="page" to={'/home'}>Home</Link>
             <Link className="nav-link fs-4" to={'/sign-in'}>Sign In</Link>
             <Link className="nav-link fs-4" to={'/play'}>Play</Link>
           </div>

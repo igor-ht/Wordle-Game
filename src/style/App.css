@@ -2,7 +2,6 @@ html {
   height: 100%;
   min-width: 100%;
   margin: 0;
-  background-color: whitesmoke;
   overflow: hidden;
 }
 
@@ -29,8 +28,10 @@ body {
   justify-items: center;
   align-items: center;
   height: 95%;
+  background-color: hsl(160deg 81% 80% / 10%);;
 }
 .myContainer {
+  margin-top: 2%;
   align-self: start;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -47,10 +48,12 @@ body {
   font-weight: bold;
   text-align: center;
   border-radius: 5% 5% 5% 5%;
+  caret-color: transparent;
 }
 
 .myContainer input:focus {
   background-color: rgba(255, 196, 228, 0.349);
+  border: 1px solid black;
 }
 
 .keyboard {
@@ -67,10 +70,11 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 40% 40% 20% 20%;
-  height: 78%;
+  border-radius: 5%;
+  border: 1px solid black;
+  height: 95%;
   width: 100%;
-  background-color: rgba(146, 146, 146, 0.838);
+  background-color: hsla(239, 83%, 64%, 0.598);
   margin: 0;
 }
 .keyboard button p {
@@ -80,19 +84,19 @@ body {
 }
 .keyboard .enter {
   grid-area: 2/1/-1/2;
-  border-radius: 5%;
-  height: 90%;
+  border-radius: 8%;
+  height: 95%;
 }
 .keyboard .backSpace {
   grid-area: 3/-3/-1/-1;
-  border-radius: 5%;
+  border-radius: 6%;
 }
 .keyboard button:hover {
   opacity: 0.7;
-  background-color: rgba(138, 136, 136, 0.838);
+  background-color: hsl(239, 83%, 64%);
 }
 .keyboard button:active {
-  background-color: gray;
+  background-color: hsl(239, 27%, 32%);
   opacity: 0.9;
 }
 
@@ -107,7 +111,7 @@ body {
  
   }
   .myContainer input {
-    min-width: 75%;
+    width: 60%;
     height: 100%;
   }
   .keyboard {
@@ -118,12 +122,15 @@ body {
   .keyboard button {
     height: 80%;
     width: 80%;
-    border-radius: 40% 40% 20% 20%;
-    background-color: rgba(146, 146, 146, 0.838);
-    margin: 0;
+    border: 3px solid black;
   }
 
   .keyboard button p{
     font-size: x-large;
   }
+
+  .keyboard .backSpace {
+    width: 90%;
+  }
+
 }

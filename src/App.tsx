@@ -6,14 +6,21 @@ import { WordleApi } from './wordleApi';
 
 function App() {
 
+
+  
   return (
     <>      
-      <WordleContext.Provider value={WordleApi()}>
-        <HomePage/>
-        <Outlet/>
-      </WordleContext.Provider>
+
+        
+        <WordleContext.Provider value={WordleApi()}>
+          
+          <HomePage/>
+          
+          <Outlet/>
+          
+
+        </WordleContext.Provider>
     </>
-   
   );
 }
 
