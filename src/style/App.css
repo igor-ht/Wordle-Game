@@ -1,0 +1,129 @@
+html {
+  height: 100%;
+  min-width: 100%;
+  margin: 0;
+  background-color: whitesmoke;
+  overflow: hidden;
+}
+
+body {
+  height: 100%;
+  min-width: 90%;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  background-color: whitesmoke;
+  justify-items: center;
+}
+
+/* general setting (mobile) */
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+.wordleDisplay {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 5fr 5fr;
+  justify-items: center;
+  align-items: center;
+  height: 95%;
+}
+.myContainer {
+  align-self: start;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  row-gap: 3%;
+  place-items: center;
+  height: 60%;
+  width: 100%;
+}
+.myContainer input {
+  width: 65%;
+  height: 95%;
+  font-size: xx-large;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 5% 5% 5% 5%;
+}
+
+.myContainer input:focus {
+  background-color: rgba(255, 196, 228, 0.349);
+}
+
+.keyboard {
+  grid-area: 2/1/3/2;
+  height: 75%;
+  width: 95%;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  column-gap: 1%;
+  margin: 2%;
+}
+.keyboard button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 40% 40% 20% 20%;
+  height: 78%;
+  width: 100%;
+  background-color: rgba(146, 146, 146, 0.838);
+  margin: 0;
+}
+.keyboard button p {
+  margin: 0;
+  font-weight: bold;
+  color: white;
+}
+.keyboard .enter {
+  grid-area: 2/1/-1/2;
+  border-radius: 5%;
+  height: 90%;
+}
+.keyboard .backSpace {
+  grid-area: 3/-3/-1/-1;
+  border-radius: 5%;
+}
+.keyboard button:hover {
+  opacity: 0.7;
+  background-color: rgba(138, 136, 136, 0.838);
+}
+.keyboard button:active {
+  background-color: gray;
+  opacity: 0.9;
+}
+
+/* media for screen bigger than 1024px */
+@media (min-width: 800px) {
+
+  .myContainer {
+    margin-top: 2%;
+    height: 100%;
+    width: 30%;
+    row-gap: 5%;
+ 
+  }
+  .myContainer input {
+    min-width: 75%;
+    height: 100%;
+  }
+  .keyboard {
+    height: 70%;
+    width: 70%;
+    gap: 0%;
+  }
+  .keyboard button {
+    height: 80%;
+    width: 80%;
+    border-radius: 40% 40% 20% 20%;
+    background-color: rgba(146, 146, 146, 0.838);
+    margin: 0;
+  }
+
+  .keyboard button p{
+    font-size: x-large;
+  }
+}
