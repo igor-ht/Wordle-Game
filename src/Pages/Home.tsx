@@ -4,7 +4,7 @@ import WordleContext from "../Context/wordleContext";
 
 export function HomePage() {
 
-  const { createStatePicture } = useContext(WordleContext)
+  const { createStatePicture, user } = useContext(WordleContext)
 
   createStatePicture()
 
@@ -12,6 +12,7 @@ export function HomePage() {
     <nav className="navbar navbar-expand-lg bg-light">
       <div className="container-fluid">
         <span className="navbar-brand fs-1" >Wordle</span>
+        <p className="nav fs-4 m-2 text-decoration-underline">Welcome, {user.email}!</p>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -22,6 +23,7 @@ export function HomePage() {
             <Link className="nav-link fs-4" to={'/play'}>Play</Link>
           </div>
         </div>
+        
       </div>
     </nav>
   )

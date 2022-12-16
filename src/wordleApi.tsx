@@ -15,12 +15,23 @@ export interface StateInterface {
   statePicture: InputInterface[][]
 };
 
+export interface UserData {
+  email: String,
+  password: String
+}
+
 
 export function WordleApi() {
 
+
+    // sign in methods
+    const [ user, setUser ] = useState<UserData>({
+      email: "Guest",
+      password: ''
+    });
   
   const [gameState, setGameState] = useState<StateInterface>({
-    randomWord: '',
+    randomWord: 'STEEL',
     insertedLetters: [],
     statePicture: []
   });
@@ -50,23 +61,19 @@ export function WordleApi() {
       navigate('/home')
     }
   }, [navigate])
+
+
   
-/*   useEffect(() => {
+  useEffect(() => {
     console.log('fetch random word')
 
-    const options = {
-      method: 'GET',
-      headers: {
-        'X-RapidAPI-Key': '50fc996453msh7e9f2917bec60fbp1ddd25jsn7557a1b81a68',
-        'X-RapidAPI-Host': 'random-words5.p.rapidapi.com'
-      }
-    };
-    fetch('https://random-words5.p.rapidapi.com/getRandom?wordLength=5', options)
-    .then(response => response.text())
-    .then((word) => gameState.randomWord = word.toUpperCase())
+    fetch('https://random-word-api.herokuapp.com/word?length=5')
+    .then(response => response.json())
+    .then((word) => gameState.randomWord = word[0].toUpperCase())
     .catch(err => console.log(err))
   
-  },); */
+  },)
+  
 
   const inputBoard = () => {
     console.log(gameState)
@@ -205,6 +212,8 @@ export function WordleApi() {
   }
 
 
+
+
   return {
     gameState,
     setGameState,
@@ -212,6 +221,9 @@ export function WordleApi() {
     createStatePicture,
     createInputRow,
     createKeyboard,
+    user,
+    setUser,
+    navigate
 
   }
 }
