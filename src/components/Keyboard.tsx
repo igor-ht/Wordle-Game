@@ -7,7 +7,7 @@ export const KeyboardConstructor = () => {
 
   return (
     <div className="keyboard">
-      {createKeyboard()}
+      { createKeyboard() }
     </div>
   )
 }

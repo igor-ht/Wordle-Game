@@ -1,11 +1,11 @@
-import { Fragment, KeyboardEvent, useEffect, useState } from "react";
+import React, { Fragment, KeyboardEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 
 export interface InputInterface {
-  inputId: Number,
+  inputId: number,
   inputValue: string,
-  inputStatus: String
+  inputStatus: string
 }
 
 
@@ -13,7 +13,8 @@ export interface StateInterface {
   randomWord: String;
   insertedLetters: String[];
   statePicture: InputInterface[][]
-};
+}
+
 
 export interface UserData {
   email: String,
@@ -24,14 +25,17 @@ export interface UserData {
 export function WordleApi() {
 
 
-    // sign in methods
-    const [ user, setUser ] = useState<UserData>({
-      email: "Guest",
-      password: ''
-    });
+  const navigate = useNavigate();
+
+  // sign in methods
+  const [ user, setUser ] = useState<UserData>({
+    email: "Guest",
+    password: ''
+  });
+
   
   const [gameState, setGameState] = useState<StateInterface>({
-    randomWord: 'STEEL',
+    randomWord: '',
     insertedLetters: [],
     statePicture: []
   });
@@ -54,7 +58,6 @@ export function WordleApi() {
     }
   }
 
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (window.location.pathname === '/') {
@@ -63,8 +66,7 @@ export function WordleApi() {
   }, [navigate])
 
 
-  
-  useEffect(() => {
+/*   useEffect(() => {
     console.log('fetch random word')
 
     fetch('https://random-word-api.herokuapp.com/word?length=5')
@@ -72,7 +74,7 @@ export function WordleApi() {
     .then((word) => gameState.randomWord = word[0].toUpperCase())
     .catch(err => console.log(err))
   
-  },)
+  },) */
   
 
   const inputBoard = () => {
@@ -90,22 +92,39 @@ export function WordleApi() {
       <Fragment key={Math.random().toString()}>
         {row.map((input: InputInterface, j: Number) => (
           (i === 0 && j === 0 ? 
-            <input type={'text'} key={input.inputId.toString()} id={(input.inputId.toString())} onKeyUp={handleInput} pattern='[a-z]' minLength={1} maxLength={1} required autoFocus />
-            : <input type={'text'} key={input.inputId.toString()} id={(input.inputId.toString())} onKeyUp={handleInput} pattern='[a-z]' minLength={1} maxLength={1} required disabled />
+            <input type={'text'} key={input.inputId.toString()} id={(input.inputId.toString())} onKeyUp={handleInputLetter} minLength={1} maxLength={1} required autoFocus />
+            : <input type={'text'} key={input.inputId.toString()} id={(input.inputId.toString())} onKeyUp={handleInputLetter} minLength={1} maxLength={1} required disabled />
           )
         ))}
       </Fragment>
     )
   }
 
+
+  function createKeyboard() {
+    let keyboardArray = ['Q','W','E','R','T','Y','U','I','O','P','Enter','A','S','D','F','G','H','J','K','L', 'Z','X','C','V','B','N','M', 'BckSpc'];
+    return (
+      keyboardArray.map(char => {
+        if (char === 'Enter') {
+        return <button type="button" className="enter" key={char} id={char} onClick={keyboardInput}><p>{char}</p></button>
+        } else if (char === 'BckSpc') {
+         return <button type="button" className="backSpace" key={char} id={char} onClick={keyboardInput}><p>{char}</p></button>
+        } else {
+        return  <button type="button" key={char} id={char} onClick={keyboardInput}><p>{char}</p></button>
+        }
+      })
+    )
+  }
+
+  
+  // update the keyboard buttons color by bull, cow, wrong
   const handleInputInKeyboard = (target: HTMLInputElement, row: InputInterface[]) => {
-    console.log([...gameState.statePicture])
     const keyboard = target.parentNode?.nextSibling as HTMLElement;
     const allChar = keyboard.querySelectorAll('button');
     row.forEach(input => {
       allChar.forEach(button => {
         if (button.id === input.inputValue) {
-          button.classList.add('btn','disabled');
+          button.classList.add('btn', 'active');
           if (input.inputStatus === 'bull') {
             if (button.classList.contains('btn-warning')) {
               button.classList.remove('btn-warning')
@@ -118,19 +137,10 @@ export function WordleApi() {
           }}
       })
     })
-    
   }
 
 
-  const handleInput = (event: KeyboardEvent<HTMLInputElement>) => {
-
-    if (!/^[a-zA-Z]$/.test(event.key)) return (event.currentTarget.value = '', event.currentTarget.focus());
-
-    let currentTarget: HTMLInputElement = event.currentTarget as HTMLInputElement;
-    let targetSibling: HTMLInputElement = currentTarget.nextElementSibling as HTMLInputElement;
-
-    currentTarget.value = currentTarget.value.toUpperCase();
-    
+  function updateGameStateInputValues (currentTarget: HTMLInputElement) {
 
     gameState.statePicture.forEach((inputRow: InputInterface[]) => {
       inputRow.forEach((inputItem: InputInterface, index: number) => {
@@ -146,35 +156,53 @@ export function WordleApi() {
             }
           }
           if (index === inputRow.length - 1) {
-            handleInputWord(inputRow, currentTarget);
+            handleUserInputWord(inputRow, currentTarget);
           }
           if (inputRow.indexOf(inputItem) === 4) {
-            console.log('before')
             handleInputInKeyboard(currentTarget, inputRow);
           }
         }
       })
     })
-    currentTarget.blur()
+  }
+
+
+  function handleInputElement (currentTarget: HTMLInputElement) {
+
+    let targetSibling = currentTarget.nextElementSibling as HTMLInputElement
     if (currentTarget.nextElementSibling !== null) {
       targetSibling.removeAttribute('disabled')
       targetSibling.focus()
+
     } else {
       for (let el of gameState.statePicture[5]) {
         if (el.inputStatus !== 'bull') {
           setTimeout(() => {
             alert('You fail! The word is: ' + gameState.randomWord);
-            window.location.reload();
           },500);
           return;
         }
       }
     }
+
   }
 
 
-  function handleInputWord(inputRow: InputInterface[], element: HTMLInputElement){
-    let currentElement: HTMLInputElement = element as HTMLInputElement;
+  const handleInputLetter = (event: KeyboardEvent<HTMLInputElement>) => {
+
+    if (!/^[a-zA-Z]$/.test(event.key)) return (event.currentTarget.value = '', event.currentTarget.focus());
+
+
+    let currentTarget: HTMLInputElement = event.currentTarget as HTMLInputElement;
+    currentTarget.value = currentTarget.value.toUpperCase();
+    
+    updateGameStateInputValues(currentTarget)
+    handleInputElement(currentTarget)
+  }
+
+  
+  function handleUserInputWord(inputRow: InputInterface[], element: HTMLInputElement) {
+    let currentElement = element as HTMLInputElement;
     let BullLetters = 0;
     for (let i = 4; i > -1; i--) {
       if (inputRow[i].inputStatus === 'bull') {
@@ -196,22 +224,50 @@ export function WordleApi() {
   }
 
 
-  function createKeyboard() {
-    let keyboardArray = ['Q','W','E','R','T','Y','U','I','O','P','Enter','A','S','D','F','G','H','J','K','L', 'Z','X','C','V','B','N','M', 'BckSpc'];
-    return (
-      keyboardArray.map(char => {
-        if (char === 'Enter') {
-        return <button type="button" className="enter" key={char} id={char}><p>{char}</p></button>
-        } else if (char === 'BckSpc') {
-         return <button type="button" className="backSpace" key={char} id={char}><p>{char}</p></button>
-        } else {
-        return  <button type="button" key={char} id={char}><p>{char}</p></button>
-        }
-      })
-    )
+  function backSpace (event: React.MouseEvent<HTMLButtonElement>) {
+    let inputContainer = event.currentTarget.parentElement?.previousElementSibling as HTMLElement
+    let currentInput = inputContainer.firstElementChild as HTMLInputElement;
+    let counter = 0;
+    while (currentInput.value !== '' && currentInput.nextElementSibling !== null) {
+      counter += 1
+      currentInput = currentInput.nextElementSibling as HTMLInputElement;
+    }
+    
+    if (counter % 5 !== 0 && counter !== 0) {
+      currentInput.setAttribute('disabled', 'true');
+      currentInput = currentInput.previousElementSibling as HTMLInputElement;
+      currentInput.value = '';
+      currentInput.focus()
+      gameState.statePicture[(counter/5)][counter%5].inputValue = '';
+      gameState.statePicture[(counter/5)][counter%5].inputStatus = 'empty';
+    } else {
+      currentInput.focus();
+    }
   }
 
 
+  function keyboardInput (event: React.MouseEvent<HTMLButtonElement>) {
+
+    if (event.currentTarget.id === 'Enter') {
+      return
+    }
+    else if (event.currentTarget.id === 'BckSpc') {
+      backSpace(event);
+      return
+    }
+
+    let inputContainer = event.currentTarget.parentElement?.previousElementSibling as HTMLElement
+    let currentInput = inputContainer.firstElementChild as HTMLInputElement
+
+    while (currentInput.value !== '' && currentInput.nextElementSibling !== null) {
+      currentInput = currentInput.nextElementSibling as HTMLInputElement;
+    }
+    if (currentInput.value === '') {
+      currentInput.value = event.currentTarget.id;
+      handleInputElement(currentInput)
+    }    
+    updateGameStateInputValues(currentInput);
+  }
 
 
   return {

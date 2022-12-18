@@ -4,7 +4,7 @@ import WordleContext from "../Context/wordleContext";
 
 export function HomePage() {
 
-  const { createStatePicture, user } = useContext(WordleContext)
+  const { createStatePicture, user, setUser } = useContext(WordleContext)
 
   createStatePicture()
 
@@ -23,7 +23,7 @@ export function HomePage() {
             <Link className="nav-link fs-4" to={'/play'}>Play</Link>
           </div>
         </div>
-        
+        {user.email !== 'Guest' && <button type="button" onClick={ () => { let new_user = {email: 'Guest'}; setUser(new_user)} }>log out</button> }
       </div>
     </nav>
   )

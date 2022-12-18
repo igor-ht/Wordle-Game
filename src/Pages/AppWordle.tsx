@@ -3,13 +3,10 @@ import Keyboard from '../components/Keyboard'
 
 export function AppWordle() {
 
-  function startGame(event: any) {
-    console.log('hi ou')
-  }
 
   return (
 
-    <div className='wordleDisplay' onLoad={startGame}>
+    <div className='wordleDisplay'>
         <Input></Input>
         <Keyboard></Keyboard>
     </div>

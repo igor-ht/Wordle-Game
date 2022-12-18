@@ -9,10 +9,10 @@ export function SignIn() {
   const { setUser, navigate } = useContext(WordleContext)
 
 
-
   function userLogIn (event: FormEvent<HTMLFormElement>) {
   
-    event.preventDefault()
+    event.preventDefault();
+    event.stopPropagation();
   
     let newUser: UserData = {
       email: event.currentTarget.email.value as String,
@@ -20,7 +20,6 @@ export function SignIn() {
     }
     setUser(newUser);
     navigate('/play');
-
   }
 
 

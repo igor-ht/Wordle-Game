@@ -4,12 +4,11 @@ import WordleContext from '../Context/wordleContext';
 
 export const InputConstructor = () => {
 
-  const { inputBoard} = React.useContext(WordleContext);
-
+  const { inputBoard } = React.useContext(WordleContext);
 
   return (
     <>
-      {inputBoard()}
+      { inputBoard() }
     </>
   )
 }
