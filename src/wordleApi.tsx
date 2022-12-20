@@ -66,7 +66,7 @@ export function WordleApi() {
   }, [navigate])
 
 
-/*   useEffect(() => {
+  useEffect(() => {
     console.log('fetch random word')
 
     fetch('https://random-word-api.herokuapp.com/word?length=5')
@@ -74,7 +74,7 @@ export function WordleApi() {
     .then((word) => gameState.randomWord = word[0].toUpperCase())
     .catch(err => console.log(err))
   
-  },) */
+  },)
   
 
   const inputBoard = () => {
@@ -110,7 +110,7 @@ export function WordleApi() {
         } else if (char === 'BckSpc') {
          return <button type="button" className="backSpace" key={char} id={char} onClick={keyboardInput}><p>{char}</p></button>
         } else {
-        return  <button type="button" key={char} id={char} onClick={keyboardInput}><p>{char}</p></button>
+        return  <button type="button" key={char} id={char} onClick={keyboardInput} style={{maxWidth: '100%'}}><p>{char}</p></button>
         }
       })
     )
@@ -218,7 +218,6 @@ export function WordleApi() {
     if (BullLetters === 5) {
       setTimeout(() => {
         alert('Success! You got the right word: ' + gameState.randomWord);
-        window.location.reload();
       })
     }
   }

@@ -9,7 +9,7 @@ export function HomePage() {
   createStatePicture()
 
   return (
-    <nav className="navbar navbar-expand-lg bg-light">
+    <nav className="navbar navbar-expand-lg bg-light" style={{height: '60px'}}>
       <div className="container-fluid">
         <span className="navbar-brand fs-1" >Wordle</span>
         <p className="nav fs-4 m-2 text-decoration-underline">Welcome, {user.email}!</p>

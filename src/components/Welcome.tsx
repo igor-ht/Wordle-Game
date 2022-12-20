@@ -4,8 +4,9 @@ export function Welcome() {
 
 
   return (
-    <div className="row m-5 w-50">
-      <div className="col-sm-6 w-50">
+    <div className="row m-5" style={{height: '100%', width: '100%'}}>
+      
+      <div className="col-sm-6 m-1" style={{height: '50%', width: '45%'}}>
         <div className="card border-warning">
           <div className="card-header fs-2 border-warning">
             Game Rules &#129513;
@@ -18,7 +19,7 @@ export function Welcome() {
         </div>
       </div>
 
-      <div className="col-sm-6 w-50">
+      <div className="col-sm-6" style={{height: '50%', width: '45%'}}>
         <div className="card border-success">
           <div className="card-header fs-2 border-success">
             Sign Up &#128077;
@@ -26,6 +27,7 @@ export function Welcome() {
           <div className="card-body">
             <h5 className="card-title fs-4">Create a free account and enjoy more!</h5>
             <p className="card-text fs-5">Play with other players, challenge your friends and be the King of Word Guessing.</p>
+            <br/>
             <Link to={'/sign-in'} className="btn btn-success">Sign up now</Link>
           </div>
         </div>
