@@ -1,7 +1,4 @@
 import {describe, expect, test, jest } from '@jest/globals';
-import { json } from 'stream/consumers';
-import { decryption, encryption } from '../controllers/cryptoData';
-import {IUser} from '../controllers/userController'; 
 
 describe('create new User', () => {
 
