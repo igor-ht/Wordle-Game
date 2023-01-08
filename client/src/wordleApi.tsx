@@ -67,14 +67,11 @@ export function WordleApi() {
 
 
   useEffect(() => {
-    // random-word-api.herokuapp.com/word?length=5
-    // .then(response => response.json())
-    // .then((word) => gameState.randomWord = word[0].toUpperCase())
-    fetch('http://localhost:5000/word')
+    fetch('http://localhost:5000/word/randWord')
       .then(res => res.text())
-      .then((word) => gameState.randomWord = decryption(word,'$%^Encrypt!@#').toUpperCase())
+      .then((word) => gameState.randomWord = decryption(word,'!@#EncryptionWord$%^').toUpperCase())
       .catch(err => console.log(err));
-  },)
+  });
   
 
   const inputBoard = () => {

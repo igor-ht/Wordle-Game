@@ -1,8 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 import config from './serverConfig';
-import routes from './routes';
-import '../models/db';
+import '../models/db.client';
+import wordRouter from './wordRouter';
+import userRouter from './userRouter';
 
 export const appServer = express();
 
@@ -11,8 +12,11 @@ appServer.use(cors({
 }));
 
 appServer.use(express.json());
+
 appServer.use(express.urlencoded({ extended: false }));
 
-appServer.listen(config.port,config.host,  () => console.log(`AppServer listening on ${config.host}${config.port}`));
+appServer.use('/word', wordRouter);
 
-routes(appServer);
+appServer.use('/user', userRouter);
+
+appServer.listen(config.port,config.host,  () => console.log(`AppServer listening on http://${config.host}:${config.port}`));

@@ -1,5 +1,5 @@
 import { Pool } from "pg";
-import { user, host, database, password } from './config';
+import { user, host, database, password } from './db.config';
 
 const client = new Pool({user, host, database, password});
 console.log('pg client created')

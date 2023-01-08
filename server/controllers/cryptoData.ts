@@ -1,8 +1,8 @@
 import CryptoJS from "crypto-js";
 
 
-export function encryption (word: string, key: string) {
-  const cyphertext = CryptoJS.AES.encrypt(word, key);
+export function encryption (word: string, key: string): string {
+  const cyphertext = CryptoJS.AES.encrypt(  word, key);
   return cyphertext.toString()
 };
 
