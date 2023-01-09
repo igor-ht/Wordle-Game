@@ -313,10 +313,6 @@ export function WordleApi() {
 		updateGameStateInputValues(currentInput);
 	}
 
-
-
-	
-
 	return {
 		gameState,
 		setGameState,
@@ -328,6 +324,6 @@ export function WordleApi() {
 		setUser,
 		navigate,
 		encryption,
-		decryption
+		decryption,
 	};
 }
