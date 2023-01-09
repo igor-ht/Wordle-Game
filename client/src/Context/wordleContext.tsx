@@ -1,5 +1,5 @@
-import { createContext } from "react";
+import { createContext } from 'react';
 
 const WordleContext = createContext<any>(null);
 
-export default WordleContext
+export default WordleContext;
