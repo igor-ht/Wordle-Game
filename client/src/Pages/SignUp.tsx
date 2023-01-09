@@ -2,10 +2,53 @@ import { RefObject, useContext, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import WordleContext from '../Context/wordleContext';
 
-export function SignUp() {
-	const { handleUserRegistration } = useContext(WordleContext);
+export function SignUp(this: any) {
+	const { setUser, navigate, encryption } = useContext(WordleContext);
 
 	const formRef: RefObject<HTMLFormElement> = useRef(null);
+
+	const handleUserRegistration = async (
+		event: React.FormEvent<HTMLFormElement>,
+		formRef: RefObject<HTMLFormElement>
+	) => {
+		event.stopPropagation();
+		event.preventDefault();
+
+		const inputs = formRef.current?.getElementsByTagName('input') as HTMLCollectionOf<HTMLInputElement>;
+		if (!inputs[0] || !inputs[1] || !inputs[2] || !inputs[3]) alert('User Registration not valid');
+		const newUser = {
+			name: inputs[0].value,
+			email: inputs[1].value,
+			password: inputs[2].value,
+			confirmpassword: inputs[3].value,
+		};
+		if (inputs[2].value === inputs[3].value) {
+			newUser.password = encryption(newUser.password, '!@#PasswordEncryption$%^');
+			newUser.confirmpassword = encryption(newUser.password, '!@#PasswordEncryption$%^');
+
+			const res = await fetch('http://localhost:5000/user/create', {
+				method: 'post',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(newUser),
+			});
+
+			const data = await res.text();
+
+			if (data === 'User succesfully registered.') {
+				setUser({
+					name: inputs[0].value,
+					password: encryption(inputs[2].value, inputs[3].value),
+				});
+				navigate('/home');
+			} else {
+				alert('email already in use.');
+			}
+		} else {
+			alert('Your password confirmation is not valid.');
+		}
+	};
 
 	return (
 		<section className="vh-100 bg-image overflow-auto">
@@ -20,7 +63,7 @@ export function SignUp() {
 									<form
 										ref={formRef}
 										className="form-control-sm"
-										onSubmit={handleUserRegistration(formRef)}>
+										onSubmit={(event) => handleUserRegistration(event, formRef)}>
 										<div className="form-outline mb-4">
 											<input
 												type="text"
@@ -91,13 +134,9 @@ export function SignUp() {
 
 										<p className="text-center text-muted mt-5 mb-0">
 											Have already an account?{' '}
-											<a
-												href="#!"
-												className="fw-bold text-body">
-												<u>
-													<Link to={'/sign-in'}>Login Here</Link>
-												</u>
-											</a>
+											<u>
+												<Link to={'/sign-in'}>Login Here</Link>
+											</u>
 										</p>
 									</form>
 								</div>

@@ -313,63 +313,9 @@ export function WordleApi() {
 		updateGameStateInputValues(currentInput);
 	}
 
-	async function userLogIn(event: React.FormEvent<HTMLFormElement>, formRef: RefObject<HTMLFormElement>) {
-		event.preventDefault();
-		event.stopPropagation();
 
-		const inputs = formRef.current?.getElementsByTagName('input') as HTMLCollectionOf<HTMLInputElement>;
-		const res = await fetch(`http://localhost:5000/user/find/${inputs[0].value}`);
-		const userFromDb = await res.json();
-		if (
-			userFromDb.email === inputs[0].value &&
-			decryption(userFromDb.password, '!@#PasswordEncryption$%^') === inputs[1].value
-		) {
-			setUser({ name: userFromDb.name, password: userFromDb.password });
-			navigate('/play');
-		} else {
-			alert('One or more fields are invalid.');
-		}
-	}
 
-	async function handleUserRegistration(event: React.FormEvent<HTMLFormElement>, formRef: RefObject<HTMLFormElement>) {
-		event.stopPropagation();
-		event.preventDefault();
-
-		const inputs = formRef.current?.getElementsByTagName('input') as HTMLCollectionOf<HTMLInputElement>;
-		if (!inputs[0] || !inputs[1] || !inputs[2] || !inputs[3]) alert('User Registration not valid');
-		const newUser = {
-			name: inputs[0].value,
-			email: inputs[1].value,
-			password: inputs[2].value,
-			confirmpassword: inputs[3].value,
-		};
-		if (inputs[2].value === inputs[3].value) {
-			newUser.password = encryption(newUser.password, '!@#PasswordEncryption$%^');
-			newUser.confirmpassword = encryption(newUser.password, '!@#PasswordEncryption$%^');
-
-			const res = await fetch('http://localhost:5000/user/create', {
-				method: 'post',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(newUser),
-			});
-
-			const data = await res.text();
-
-			if (data === 'User succesfully registered.') {
-				setUser({
-					name: inputs[0].value,
-					password: encryption(inputs[2].value, inputs[3].value),
-				});
-				navigate('/home');
-			} else {
-				alert('email already in use.');
-			}
-		} else {
-			alert('Your password confirmation is not valid.');
-		}
-	}
+	
 
 	return {
 		gameState,
@@ -381,7 +327,7 @@ export function WordleApi() {
 		user,
 		setUser,
 		navigate,
-		userLogIn,
-		handleUserRegistration,
+		encryption,
+		decryption
 	};
 }
