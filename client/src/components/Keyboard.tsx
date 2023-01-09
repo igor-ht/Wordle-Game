@@ -1,15 +1,10 @@
-import { useContext } from "react";
-import WordleContext from "../Context/wordleContext";
+import { useContext } from 'react';
+import WordleContext from '../Context/wordleContext';
 
 export const KeyboardConstructor = () => {
+	const { createKeyboard } = useContext(WordleContext);
 
-  const {createKeyboard} = useContext(WordleContext)
+	return <div className="keyboard">{createKeyboard()}</div>;
+};
 
-  return (
-    <div className="keyboard">
-      { createKeyboard() }
-    </div>
-  )
-}
-
-export default KeyboardConstructor
+export default KeyboardConstructor;
