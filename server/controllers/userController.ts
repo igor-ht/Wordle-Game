@@ -1,5 +1,4 @@
 import { Pool } from 'pg';
-import checkDbConnection from '../models/db.client';
 import { ICrudDao } from './ICrud';
 
 export interface IUser {
@@ -16,8 +15,6 @@ export interface IDisplayUser {
 }
 
 export class UserDao implements ICrudDao<IDisplayUser, IUser> {
-	#MYKEY = '!@#PasswordEncryption$%^';
-
 	constructor(public db: Pool) {
 		this.db = db;
 	}
@@ -74,12 +71,4 @@ export class UserDao implements ICrudDao<IDisplayUser, IUser> {
 		const row = await res.rows[0];
 		return row;
 	}
-}
-
-let UserService: UserDao;
-export default function UserDB() {
-	if (!UserService) {
-		UserService = new UserDao(checkDbConnection());
-	}
-	return UserService;
 }

@@ -1,16 +1,15 @@
 import express from 'express';
 import cors from 'cors';
-import config from './serverConfig';
+import { serverConfig } from './serverConfig';
 import '../models/db.client';
 import wordRouter from './word/wordRouter';
 import userRouter from './users/userRouter';
-import { connectDataBase } from '../models/db.client';
 
 export const appServer = express();
 
 appServer.use(
 	cors({
-		origin: `http://${config.host}:${config.origin}`,
+		origin: `http://${serverConfig.host}:${serverConfig.origin}`,
 	})
 );
 

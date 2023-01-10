@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { check, validationResult } from 'express-validator';
 import { decryption } from './cryptoData';
 
-const passwordKey = '!@#PasswordEncryption$%^';
+const passwordKey = process.env.APP_MYKEY_PASS!;
 
 export function validateID(req: Request, res: Response, next: NextFunction) {
 	check('id').isInt({ gt: 1, lt: 100 }).toInt().run(req);
@@ -18,21 +18,19 @@ export function validateUser(req: Request, res: Response, next: NextFunction) {
 	const validationChecks = [
 		check('email').isEmail(),
 		check('name').isLength({ min: 2, max: 50 }),
-		check('password')
-			.custom((value, { req }) => {
-				const plaintext = decryption(value, passwordKey);
-				check(plaintext).isLength({ min: 6 });
-			}),
+		check('password').custom((value, { req }) => {
+			const plaintext = decryption(value, passwordKey);
+			check(plaintext).isLength({ min: 6 });
+		}),
 		check('confirmpassword').custom((value, { req }) => {
 			if (decryption(value, passwordKey) !== decryption(req.body.password, passwordKey))
 				throw new Error('Password confirmation does not match password');
 			return true;
 		}),
 	];
-	validationChecks.forEach( (validationCheck) => validationCheck.run(req));
+	validationChecks.forEach((validationCheck) => validationCheck.run(req));
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
-		
 		return res.status(400).json({ errors: errors.array() });
 	}
 	next();

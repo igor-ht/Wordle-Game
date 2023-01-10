@@ -1,6 +1,14 @@
 import { Request, Response } from 'express';
-import UserDB, { IUser } from '../../controllers/userController';
-import { MYKEY } from './userRouter';
+import { IUser, UserDao } from '../../controllers/userController';
+import checkDbConnection from '../../models/db.client';
+
+let UserService: UserDao;
+export default function UserDB() {
+	if (!UserService) {
+		UserService = new UserDao(checkDbConnection());
+	}
+	return UserService;
+}
 
 export async function getUserByEmail(req: Request, res: Response) {
 	const email = req.params.email;

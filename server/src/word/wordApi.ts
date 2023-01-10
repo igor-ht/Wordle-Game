@@ -1,7 +1,16 @@
 import { Request, Response } from 'express';
-import WordDB from '../../controllers/wordController';
 import { encryption } from '../../controllers/cryptoData';
+import { WordDao } from '../../controllers/wordController';
+import checkDbConnection from '../../models/db.client';
 import { MYKEY } from './wordRouter';
+
+let WordService: WordDao;
+function WordDB() {
+	if (!WordService) {
+		WordService = new WordDao(checkDbConnection());
+	}
+	return WordService;
+}
 
 export async function getRandomWord(req: Request, res: Response) {
 	const randomWord = await WordDB().getRandomWord();

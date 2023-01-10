@@ -1,16 +1,17 @@
 import { connectDataBase } from '../models/db.client';
 import { appServer } from './server';
-import config from './serverConfig';
-import '../models/db.config';
+import { serverConfig } from './serverConfig';
 import { dbConfig } from '../models/db.config';
+import dotenv from 'dotenv';
 
 async function startApp() {
 	await connectDataBase(dbConfig);
 
-	appServer.listen(config.port, config.host, () =>
-		console.log(`AppServer listening on http://${config.host}:${config.port}`)
+	appServer.listen(serverConfig.port!, serverConfig.host!, () =>
+		console.log(`AppServer listening on http://${serverConfig.host}:${serverConfig.port}`)
 	);
 }
 
 // start the application
+dotenv.config();
 startApp().catch(console.log);

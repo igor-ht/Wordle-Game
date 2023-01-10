@@ -1,7 +1,5 @@
-const config = {
-	host: 'localhost',
-	port: 5000,
-	origin: 3000,
-};
+const host = process.env.APP_SV_HOST ? this : 'localhost' as string;
+const port = process.env.APP_SV_PORT ? this : 3000 as number;
+const origin = process.env.APP_SV_ORIGIN ? this : 5000 as number;
 
-export default config;
+export const serverConfig = { host, port, origin };
