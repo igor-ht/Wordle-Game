@@ -1,23 +1,22 @@
-import { Pool } from 'pg';
-import { user, host, database, password } from './db.config';
+import { Pool, PoolConfig } from 'pg';
 
 export let client: Pool;
 
-export function connectDataBase() {
-	if (!checkDbConnection()) {
-		client = new Pool({ user, host, database, password });
+export async function connectDataBase(DBconfig: PoolConfig) {
+	if (!client) {
+		client = new Pool(DBconfig);
 		console.log('pg client created');
-		client.connect();
+		await client.connect();
 		console.log('pg client connected');
 	} else {
-		console.log('Could`t connect to database.');
+		console.log('Already connected to Database.');
 	}
 }
 
-export function checkDbConnection() {
+export default function checkDbConnection() {
 	if (!client) {
-		return false;
+		throw 'You need to connect to database before calling this function';
 	} else {
-		return true;
+		return client;
 	}
 }

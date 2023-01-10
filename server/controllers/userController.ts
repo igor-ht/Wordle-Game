@@ -1,4 +1,5 @@
 import { Pool } from 'pg';
+import checkDbConnection from '../models/db.client';
 import { ICrudDao } from './ICrud';
 
 export interface IUser {
@@ -45,16 +46,18 @@ export class UserDao implements ICrudDao<IDisplayUser, IUser> {
 			'SELECT uname as "User Name", uemail as "User Email", uregistration as "User Registration" FROM users WHERE uid = $1',
 			[id]
 		);
-		const data = await res.rows[0];
-		return data;
+		const row = await res.rows[0];
+		return row;
 	}
 
 	public async update(id: number, user: IUser): Promise<IDisplayUser> {
+		const { name, email, password } = user;
 		const res = await this.db.query(
 			'UPDATE users SET uname = $2, uemail = $3, upassword = S4 WHERE uid = $1 RETURNING uname as User_Name, uemail as User_Email, uregistration as User_Registration',
-			[id, user.name, user.email, user.password]
+			[id, name, email, password]
 		);
-		return res.rows[0];
+		const row = await res.rows[0];
+		return row;
 	}
 
 	public async delete(id: number): Promise<boolean> {
@@ -71,4 +74,12 @@ export class UserDao implements ICrudDao<IDisplayUser, IUser> {
 		const row = await res.rows[0];
 		return row;
 	}
+}
+
+let UserService: UserDao;
+export default function UserDB() {
+	if (!UserService) {
+		UserService = new UserDao(checkDbConnection());
+	}
+	return UserService;
 }
