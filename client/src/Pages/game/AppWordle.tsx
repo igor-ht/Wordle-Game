@@ -1,5 +1,5 @@
-import Input from '../components/Input';
-import Keyboard from '../components/Keyboard';
+import Input from './Input';
+import Keyboard from './Keyboard';
 
 export function AppWordle() {
 	return (

@@ -1,6 +1,6 @@
-import { Fragment, KeyboardEvent, RefObject, useEffect, useState } from 'react';
+import { Fragment, KeyboardEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { encryption, decryption } from './cryptoData';
+import { encryption, decryption } from './Pages/forms/components/cryptoData';
 
 export interface InputInterface {
 	inputId: number;
@@ -241,7 +241,7 @@ export function WordleApi() {
 	}
 
 	const handleInputLetter = (event: KeyboardEvent<HTMLInputElement>) => {
-		if (!/^[a-zA-Z]$/.test(event.key)) return (event.currentTarget.value = ''), event.currentTarget.focus();
+		if (!/^[a-zA-Z]$/.test(event.key)) return (event.currentTarget.value = '');
 
 		let currentTarget: HTMLInputElement = event.currentTarget as HTMLInputElement;
 		currentTarget.value = currentTarget.value.toUpperCase();

@@ -1,4 +1,4 @@
-import { HomePage } from './Pages/Home';
+import { HomePage } from './Pages/layout/Home';
 import { Outlet } from 'react-router-dom';
 import WordleContext from './Context/wordleContext';
 import { WordleApi } from './wordleApi';
@@ -8,7 +8,6 @@ function App() {
 		<>
 			<WordleContext.Provider value={WordleApi()}>
 				<HomePage />
-
 				<Outlet />
 			</WordleContext.Provider>
 		</>

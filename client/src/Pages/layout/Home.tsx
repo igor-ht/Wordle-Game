@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import WordleContext from '../Context/wordleContext';
+import WordleContext from '../../Context/wordleContext';
 
 export function HomePage() {
 	const { createStatePicture, user, setUser } = useContext(WordleContext);

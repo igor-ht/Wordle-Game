@@ -1,5 +1,5 @@
 import { RefObject, useContext, useRef } from 'react';
-import WordleContext from '../Context/wordleContext';
+import WordleContext from '../../Context/wordleContext';
 
 export function SignIn() {
 	const { decryption, setUser, navigate } = useContext(WordleContext);
@@ -29,7 +29,6 @@ export function SignIn() {
 			<form
 				ref={formRef}
 				className="w-75"
-				
 				onSubmit={(event) => userLogIn(event, formRef)}>
 				<h1 className="h1 mb-3 fw-normal">Sign in</h1>
 

@@ -3,7 +3,7 @@ import { getRandomWord, postNewWord, getUserByID, updateWord, deleteWord } from 
 
 const wordRouter = express.Router();
 
-export const MYKEY = process.env.APP_MYKEY_WORD!;
+export const MYKEY = process.env.APP_MYKEY_WORD! || '!@#EncryptionWord$%^';
 
 wordRouter.get('/', (req, res) => {
 	res.send('connected');

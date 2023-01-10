@@ -4,6 +4,8 @@ import { serverConfig } from './serverConfig';
 import { dbConfig } from '../models/db.config';
 import dotenv from 'dotenv';
 
+
+
 async function startApp() {
 	await connectDataBase(dbConfig);
 

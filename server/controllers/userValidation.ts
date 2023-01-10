@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { check, validationResult } from 'express-validator';
 import { decryption } from './cryptoData';
 
-const passwordKey = process.env.APP_MYKEY_PASS!;
+const passwordKey = process.env.APP_MYKEY_PASS! || '!@#PasswordEncryption$%^';
 
 export function validateID(req: Request, res: Response, next: NextFunction) {
 	check('id').isInt({ gt: 1, lt: 100 }).toInt().run(req);

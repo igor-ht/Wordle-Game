@@ -1,6 +1,6 @@
 import { RefObject, useContext, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import WordleContext from '../Context/wordleContext';
+import WordleContext from '../../Context/wordleContext';
 
 export function SignUp(this: any) {
 	const { setUser, navigate, encryption } = useContext(WordleContext);
@@ -15,7 +15,8 @@ export function SignUp(this: any) {
 		event.preventDefault();
 
 		const inputs = formRef.current?.getElementsByTagName('input') as HTMLCollectionOf<HTMLInputElement>;
-		if (!inputs[0] || !inputs[1] || !inputs[2] || !inputs[3]) alert('User Registration not valid');
+		if (!inputs[0].value || !inputs[1].value || !inputs[2].value || !inputs[3].value)
+			alert('User Registration not valid');
 		const newUser = {
 			name: inputs[0].value,
 			email: inputs[1].value,

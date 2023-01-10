@@ -1,9 +1,9 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
-import { Welcome } from './components/Welcome';
-import { AppWordle } from './Pages/AppWordle';
-import { SignIn } from './Pages/SignIn';
-import { SignUp } from './Pages/SignUp';
+import { Welcome } from './Pages/layout/Welcome';
+import { AppWordle } from './Pages/game/AppWordle';
+import { SignIn } from './Pages/forms/SignIn';
+import { SignUp } from './Pages/forms/SignUp';
 
 export const wordleRouter = createBrowserRouter([
 	{
