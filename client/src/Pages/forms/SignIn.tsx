@@ -1,63 +1,87 @@
 import { RefObject, useContext, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import WordleContext from '../../Context/wordleContext';
 
 export function SignIn() {
-	const { decryption, setUser, navigate } = useContext(WordleContext);
+	const { userLogIn } = useContext(WordleContext);
 
 	const formRef: RefObject<HTMLFormElement> = useRef(null);
 
-	async function userLogIn(event: React.FormEvent<HTMLFormElement>, formRef: RefObject<HTMLFormElement>) {
-		event.preventDefault();
-		event.stopPropagation();
-
-		const inputs = formRef.current?.getElementsByTagName('input') as HTMLCollectionOf<HTMLInputElement>;
-		const res = await fetch(`http://localhost:5000/user/find/${inputs[0].value}`);
-		const userFromDb = await res.json();
-		if (
-			userFromDb.email === inputs[0].value &&
-			decryption(userFromDb.password, '!@#PasswordEncryption$%^') === inputs[1].value
-		) {
-			setUser({ name: userFromDb.name, password: userFromDb.password });
-			navigate('/play');
-		} else {
-			alert('One or more fields are invalid.');
-		}
-	}
-
 	return (
-		<main className="form-signin w-25 ms-5 mt-3 text-center">
-			<form
-				ref={formRef}
-				className="w-75"
-				onSubmit={(event) => userLogIn(event, formRef)}>
-				<h1 className="h1 mb-3 fw-normal">Sign in</h1>
+		<section className="vh-100 bg-image overflow-auto">
+			<div className="mask d-flex align-items-center h-100 gradient-custom-3">
+				<div className="container align-self-start m-5">
+					<div className="row d-flex justify-content-center align-items-center">
+						<div className="col-12 col-md-9 col-lg-7">
+							<div className="card border-primary">
+								<div className="card-body">
+									<h2 className="text-uppercase text-center text- mb-5">Login into account</h2>
 
-				<div className="form-floating mb-2">
-					<input
-						type="email"
-						name="email"
-						className="form-control fs-5"
-						placeholder="name@example.com"
-					/>
-					<label className="text-center fs-6">Email address</label>
+									<form
+										ref={formRef}
+										className="form-control-sm"
+										onSubmit={(event) => {
+											event.stopPropagation();
+											event.preventDefault();
+											userLogIn(formRef.current);
+										}}>
+										<div className="row">
+											<div className="form-outline mb-4 col">
+												<input
+													type="text"
+													name="email"
+													id="form3Example1cg"
+													className="form-control form-control-lg border-primary"
+													title="email"
+													required
+												/>
+												<label
+													className="form-label fs-6"
+													htmlFor="form3Example1cg">
+													Your Email
+												</label>
+											</div>
+										</div>
+
+										<div className="row">
+											<div className="form-outline mb-4 col">
+												<input
+													type="password"
+													name="password"
+													id="form3Example4cg"
+													className="form-control form-control-lg border-primary"
+													title="password"
+													required
+												/>
+												<label
+													className="form-label fs-6"
+													htmlFor="form3Example4cg">
+													Password
+												</label>
+											</div>
+										</div>
+
+										<div className="d-flex justify-content-center">
+											<button
+												type="submit"
+												className="btn btn-primary btn-block btn-lg gradient-custom-4">
+												Sign In
+											</button>
+										</div>
+
+										<p className="text-center text-muted mt-3 mb-0">
+											Don't have an account?{' '}
+											<u>
+												<Link to={'/sign-up'}>Register Here</Link>
+											</u>
+										</p>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
-
-				<div className="form-floating mb-3">
-					<input
-						type="password"
-						name="password"
-						className="form-control fs-5"
-						placeholder="Password"
-					/>
-					<label className="text-center fs-6">Password</label>
-				</div>
-
-				<button
-					className="w-50 btn btn-lg btn-primary"
-					type="submit">
-					Sign in
-				</button>
-			</form>
-		</main>
+			</div>
+		</section>
 	);
 }

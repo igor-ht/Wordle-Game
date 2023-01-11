@@ -14,9 +14,9 @@ export function Welcome() {
 						<li className="list-group-item fs-4 border-warning">Guess a random five-letters word. ❓</li>
 						<li className="list-group-item fs-4 border-warning">You have six chances. 🎯</li>
 						<li className="list-group-item fs-4 border-warning">
-							&#9989; - right letter at right place.
+							&#9989; - Right letter at right place.
 							<br />
-							&#129000; - right letter at wrong place.
+							&#129000; - Right letter at wrong place.
 						</li>
 					</ul>
 				</div>

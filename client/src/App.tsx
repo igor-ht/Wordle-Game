@@ -1,7 +1,7 @@
 import { HomePage } from './Pages/layout/Home';
 import { Outlet } from 'react-router-dom';
 import WordleContext from './Context/wordleContext';
-import { WordleApi } from './wordleApi';
+import { WordleApi } from './services/wordleApi';
 
 function App() {
 	return (

@@ -49,11 +49,12 @@ export function HomePage() {
 				{user.name !== 'Guest' && (
 					<button
 						type="button"
+						className="btn btn-outline-secondary btn-sm"
 						onClick={() => {
 							let new_user = { name: 'Guest', password: '' };
 							setUser(new_user);
 						}}>
-						log out
+						Sign out
 					</button>
 				)}
 			</div>
