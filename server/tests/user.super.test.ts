@@ -82,8 +82,10 @@ describe('UserRouter tests', () => {
 		});
 
 		test('Update User - unsuccess', async () => {
-			MockClient.query = () => Promise.resolve({ rows: []});
-			const res = await request(appServer).put('/user/updateUser').send({ id: 1, newUser: { name: 'User1', email: 'user@test.com' }});
+			MockClient.query = () => Promise.resolve({ rows: [] });
+			const res = await request(appServer)
+				.put('/user/updateUser')
+				.send({ id: 1, newUser: { name: 'User1', email: 'user@test.com' } });
 			expect(res.status).toBe(400);
 			expect(res.text).toBe('Couldn`t update the user informations.');
 		});

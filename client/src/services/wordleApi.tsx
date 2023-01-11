@@ -178,10 +178,10 @@ export function WordleApi() {
 	const restartKeyboard = (element: HTMLInputElement) => {
 		let keyboard = element.parentNode?.nextSibling as HTMLElement;
 		const allChar = keyboard.querySelectorAll('button');
-		allChar.forEach(button => {
+		allChar.forEach((button) => {
 			button.classList.remove('btn-warning', 'btn-success', 'active');
 		});
-	}
+	};
 
 	// update the keyboard buttons color by bull, cow, wrong
 	const handleInputInKeyboard = (target: HTMLInputElement, row: InputInterface[]) => {
@@ -204,14 +204,13 @@ export function WordleApi() {
 				}
 			});
 		});
-		let victory = row.every((input) => input['inputValue'] === 'bull')
-		if (row === gameState.statePicture[5] || victory ){
+		let victory = row.every((input) => input['inputValue'] === 'bull');
+		if (row === gameState.statePicture[5] || victory) {
 			setTimeout(() => {
-				allChar.forEach(button => {
+				allChar.forEach((button) => {
 					button.classList.remove('btn-warning', 'btn-success', 'active');
-				})
-			}, 1000)
-
+				});
+			}, 1000);
 		}
 	};
 
@@ -287,7 +286,7 @@ export function WordleApi() {
 		if (BullLetters === 5) {
 			setTimeout(() => {
 				alert('Success! You got the right word: ' + gameState.randomWord);
-				restartKeyboard(element)
+				restartKeyboard(element);
 				navigate('/play');
 			}, 500);
 		} else {
