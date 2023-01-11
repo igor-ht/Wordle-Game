@@ -1,7 +1,8 @@
-# wordle_game
+# Wordle Game Project
 
-tsx frontend app
-Inside the "client" directory run to start the app: npm start
+<b>Frontend Project with React TypeScript</b><br>
+Inside the "client" directory run to start the app: <b>npm start</b>
 
-express ts-node backend app
-Inside the "server" directory run to start the server: npm run start-server 
+
+<b>Backend Project with Express and TypeScript</b><br>
+Inside the "server" directory run to start the server: <b>npm run start-server</b>
