@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import { serverConfig } from './serverConfig';
-import '../models/db.client';
 import wordRouter from './word/wordRouter';
 import userRouter from './users/userRouter';
 

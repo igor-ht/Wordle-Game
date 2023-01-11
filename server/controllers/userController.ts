@@ -65,7 +65,7 @@ export class UserDao implements ICrudDao<IDisplayUser, IUser> {
 
 	public async find(email: string) {
 		const res = await this.db.query(
-			'SELECT uname as "name", uemail as "email", upassword as "password" FROM users WHERE uemail = $1',
+			'SELECT  uname as "name", uemail as "email", upassword as "password" FROM users WHERE uemail = $1',
 			[email]
 		);
 		const row = await res.rows[0];

@@ -343,16 +343,19 @@ export function WordleApi() {
 	}
 
 	const handleUserRegistration = async (formRef: HTMLFormElement) => {
-		const inputs = formRef.getElementsByTagName('input') as HTMLCollectionOf<HTMLInputElement>;
-		if (!inputs[0].value || !inputs[1].value || !inputs[2].value || !inputs[3].value)
-			alert('User Registration not valid');
-		const newUser = {
-			name: inputs[0].value,
-			email: inputs[1].value,
-			password: inputs[2].value,
-			confirmpassword: inputs[3].value,
-		};
-		if (inputs[2].value === inputs[3].value) {
+		try {
+			const inputs = formRef.getElementsByTagName('input') as HTMLCollectionOf<HTMLInputElement>;
+			if (!inputs[0].value || !inputs[1].value || !inputs[2].value || !inputs[3].value)
+				alert('User Registration not valid');
+			const newUser = {
+				name: inputs[0].value,
+				email: inputs[1].value,
+				password: inputs[2].value,
+				confirmpassword: inputs[3].value,
+			};
+
+			if (inputs[2].value !== inputs[3].value) throw new Error('Your password confirmation is not valid.');
+
 			newUser.password = encryption(newUser.password, '!@#PasswordEncryption$%^');
 			newUser.confirmpassword = encryption(newUser.password, '!@#PasswordEncryption$%^');
 
@@ -373,10 +376,10 @@ export function WordleApi() {
 				});
 				navigate('/home');
 			} else {
-				alert('email already in use.');
+				throw new Error(data);
 			}
-		} else {
-			alert('Your password confirmation is not valid.');
+		} catch (error) {
+			alert(error);
 		}
 	};
 
