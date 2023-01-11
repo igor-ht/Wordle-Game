@@ -24,13 +24,13 @@ export class WordDao implements ICrudDao<Word, NewWord> {
 
 	public async read(id: number): Promise<Word> {
 		const res = await this.db.query('SELECT * FROM words WHERE id = $1', [id]);
-		if (res.rowCount === 0) throw 'Word not found.';
+		if (res.rowCount === 0) throw new Error ('Word not found.');
 		const data = await res.rows[0];
 		return data;
 	}
 
 	public async update(id: number, newWord: NewWord): Promise<Word> {
-		if (newWord.word.length !== 5) throw 'Word not valid';
+		if (newWord.word.length !== 5) throw new Error ('Word not valid');
 		const res = await this.db.query('UPDATE words SET words = $1 WHERE id = $2', [newWord.word, id]);
 		const data = await res.rows[0];
 		return data;
@@ -43,6 +43,7 @@ export class WordDao implements ICrudDao<Word, NewWord> {
 
 	public async getRandomWord() {
 		const res = await this.db.query('SELECT word FROM words ORDER BY RANDOM() LIMIT 1');
+		if (! await res.rows[0]) throw new Error ('Couldn`t get random word.');
 		const data: string = await res.rows[0].word;
 		return data;
 	}

@@ -19,7 +19,7 @@ export class UserDao implements ICrudDao<IDisplayUser, IUser> {
 		this.db = db;
 	}
 
-	private async checkUserInDB(email: string): Promise<boolean> {
+	public async checkUserInDB(email: string): Promise<boolean> {
 		const res = await this.db.query(`SELECT * FROM users WHERE uemail = $1`, [email]);
 		if (await res.rows[0]) return true;
 		return false;

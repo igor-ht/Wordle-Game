@@ -35,7 +35,7 @@ describe('WordRouter tests with Database', () => {
 		MockClient.query = () => Promise.resolve({ rows: [{ word: 'peace' }] });
 
 		const res = await request(appServer).get('/word/randWord');
-		expect(decryption(res.text, process.env.APP_MYKEY_WORD!)).toBe('peace');
+		expect(decryption(res.text, process.env.APP_MYKEY_WORD! || '!@#EncryptionWord$%^')).toBe('peace');
 		expect(res.status).toBe(200);
 	});
 
