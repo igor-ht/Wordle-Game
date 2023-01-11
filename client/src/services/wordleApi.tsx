@@ -82,7 +82,7 @@ export function WordleApi() {
 							type={'text'}
 							key={input.inputId.toString()}
 							id={input.inputId.toString()}
-							onKeyUp={handleInputLetter}
+							onKeyDown={handleInputLetter}
 							minLength={1}
 							maxLength={1}
 							required
@@ -93,7 +93,7 @@ export function WordleApi() {
 							type={'text'}
 							key={input.inputId.toString()}
 							id={input.inputId.toString()}
-							onKeyUp={handleInputLetter}
+							onKeyDown={handleInputLetter}
 							minLength={1}
 							maxLength={1}
 							required
@@ -175,6 +175,14 @@ export function WordleApi() {
 		});
 	}
 
+	const restartKeyboard = (element: HTMLInputElement) => {
+		let keyboard = element.parentNode?.nextSibling as HTMLElement;
+		const allChar = keyboard.querySelectorAll('button');
+		allChar.forEach(button => {
+			button.classList.remove('btn-warning', 'btn-success', 'active');
+		});
+	}
+
 	// update the keyboard buttons color by bull, cow, wrong
 	const handleInputInKeyboard = (target: HTMLInputElement, row: InputInterface[]) => {
 		const keyboard = target.parentNode?.nextSibling as HTMLElement;
@@ -196,6 +204,15 @@ export function WordleApi() {
 				}
 			});
 		});
+		let victory = row.every((input) => input['inputValue'] === 'bull')
+		if (row === gameState.statePicture[5] || victory ){
+			setTimeout(() => {
+				allChar.forEach(button => {
+					button.classList.remove('btn-warning', 'btn-success', 'active');
+				})
+			}, 1000)
+
+		}
 	};
 
 	function updateGameStateInputValues(currentTarget: HTMLInputElement) {
@@ -233,7 +250,9 @@ export function WordleApi() {
 				if (el.inputStatus !== 'bull') {
 					setTimeout(() => {
 						alert('You fail! The word is: ' + gameState.randomWord);
-					}, 500);
+						restartKeyboard(currentTarget);
+						navigate('/play');
+					}, 1000);
 					return;
 				}
 			}
@@ -241,13 +260,14 @@ export function WordleApi() {
 	}
 
 	const handleInputLetter = (event: KeyboardEvent<HTMLInputElement>) => {
-		if (!/^[a-zA-Z]$/.test(event.key)) return (event.currentTarget.value = '', event.currentTarget.focus());
+		event.preventDefault();
+		event.stopPropagation();
+		if (!/^[a-zA-Z]$/.test(event.key)) return;
 
-		let currentTarget: HTMLInputElement = event.currentTarget as HTMLInputElement;
-		currentTarget.value = currentTarget.value.toUpperCase();
+		event.currentTarget.value = event.key.toUpperCase();
 
-		updateGameStateInputValues(currentTarget);
-		handleInputElement(currentTarget);
+		updateGameStateInputValues(event.currentTarget);
+		handleInputElement(event.currentTarget);
 	};
 
 	function handleUserInputWord(inputRow: InputInterface[], element: HTMLInputElement) {
@@ -267,17 +287,27 @@ export function WordleApi() {
 		if (BullLetters === 5) {
 			setTimeout(() => {
 				alert('Success! You got the right word: ' + gameState.randomWord);
-			});
+				restartKeyboard(element)
+				navigate('/play');
+			}, 500);
+		} else {
 		}
 	}
 
 	function backSpace(event: React.MouseEvent<HTMLButtonElement>) {
 		let inputContainer = event.currentTarget.parentElement?.previousElementSibling as HTMLElement;
 		let currentInput = inputContainer.firstElementChild as HTMLInputElement;
+		let indexRow = 0;
+		let indexInput = 0;
 		let counter = 0;
 		while (currentInput.value !== '' && currentInput.nextElementSibling !== null) {
 			counter += 1;
+			indexInput += 1;
 			currentInput = currentInput.nextElementSibling as HTMLInputElement;
+			if (indexInput === 5) {
+				indexRow += 1;
+				indexInput = 0;
+			}
 		}
 
 		if (counter % 5 !== 0 && counter !== 0) {
@@ -285,8 +315,8 @@ export function WordleApi() {
 			currentInput = currentInput.previousElementSibling as HTMLInputElement;
 			currentInput.value = '';
 			currentInput.focus();
-			gameState.statePicture[counter / 5][counter % 5].inputValue = '';
-			gameState.statePicture[counter / 5][counter % 5].inputStatus = 'empty';
+			gameState.statePicture[indexRow][indexInput].inputValue = '';
+			gameState.statePicture[indexRow][indexInput].inputStatus = 'empty';
 		} else {
 			currentInput.focus();
 		}
@@ -351,7 +381,7 @@ export function WordleApi() {
 		}
 	};
 
-	const userLogIn = async(formRef: HTMLFormElement) => {
+	const userLogIn = async (formRef: HTMLFormElement) => {
 		const inputs = formRef.getElementsByTagName('input') as HTMLCollectionOf<HTMLInputElement>;
 		const res = await fetch(`http://localhost:5000/user/find/${inputs[0].value}`);
 		const userFromDb = await res.json();
