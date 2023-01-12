@@ -1,6 +1,10 @@
 import { Fragment, KeyboardEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { encryption, decryption } from './cryptoData';
+import {PASS_KEY, WORD_KEY, host, origin} from '../serverConfig';
+
+const PASSKEY = PASS_KEY!;
+const WORDKEY = WORD_KEY!;
 
 export interface InputInterface {
 	inputId: number;
@@ -40,9 +44,9 @@ export function WordleApi() {
 	}, [navigate]);
 
 	useEffect(() => {
-		fetch('http://localhost:5000/word/randWord')
+		fetch(`http://${host}:${origin}/word/randWord`)
 			.then((res) => res.text())
-			.then((word) => (gameState.randomWord = decryption(word, '!@#EncryptionWord$%^').toUpperCase()))
+			.then((word) => (gameState.randomWord = decryption(word, WORDKEY).toUpperCase()))
 			.catch((err) => console.log(err));
 	});
 
@@ -356,10 +360,10 @@ export function WordleApi() {
 
 			if (inputs[2].value !== inputs[3].value) throw new Error('Your password confirmation is not valid.');
 
-			newUser.password = encryption(newUser.password, '!@#PasswordEncryption$%^');
-			newUser.confirmpassword = encryption(newUser.password, '!@#PasswordEncryption$%^');
+			newUser.password = encryption(newUser.password, PASSKEY);
+			newUser.confirmpassword = encryption(newUser.password, PASSKEY);
 
-			const res = await fetch('http://localhost:5000/user/create', {
+			const res = await fetch(`http://${host}:${origin}/user/create`, {
 				method: 'post',
 				headers: {
 					'Content-Type': 'application/json',
@@ -385,12 +389,9 @@ export function WordleApi() {
 
 	const userLogIn = async (formRef: HTMLFormElement) => {
 		const inputs = formRef.getElementsByTagName('input') as HTMLCollectionOf<HTMLInputElement>;
-		const res = await fetch(`http://localhost:5000/user/find/${inputs[0].value}`);
+		const res = await fetch(`http://${host}:${origin}/user/find/${inputs[0].value}`);
 		const userFromDb = await res.json();
-		if (
-			userFromDb.email === inputs[0].value &&
-			decryption(userFromDb.password, '!@#PasswordEncryption$%^') === inputs[1].value
-		) {
+		if (userFromDb.email === inputs[0].value && decryption(userFromDb.password, PASSKEY) === inputs[1].value) {
 			setUser({ name: userFromDb.name, password: userFromDb.password });
 			navigate('/play');
 		} else {

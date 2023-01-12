@@ -1,9 +1,10 @@
 import express from 'express';
 import { getRandomWord, postNewWord, getUserByID, updateWord, deleteWord } from './wordApi';
+import { serverConfig } from '../serverConfig';
 
 const wordRouter = express.Router();
 
-export const MYKEY = process.env.APP_MYKEY_WORD! || '!@#EncryptionWord$%^';
+export const MYKEY = serverConfig.WORD_KEY!;
 
 wordRouter.get('/', (req, res) => {
 	res.send('connected');

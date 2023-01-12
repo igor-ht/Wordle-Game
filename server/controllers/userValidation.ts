@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import { check, Result, ValidationError, validationResult } from 'express-validator';
-import { MYKEY } from '../src/users/userRouter';
 import { decryption } from './cryptoData';
+import { serverConfig } from '../src/serverConfig'
 
-const passwordKey = process.env.APP_MYKEY_PASS! || '!@#PasswordEncryption$%^';
+const passwordKey = serverConfig.PASS_KEY!;
 
 export async function validateEmail(req: Request, res: Response, next: NextFunction) {
 	await check('email').isEmail().withMessage('Email not valid.').run(req);
@@ -67,8 +67,8 @@ export async function validadeUserUpdate(req: Request, res: Response, next: Next
 			.run(req),
 		await check('newUser.password')
 			.custom((value, { req }) => {
-				let plaintext = decryption(req.body.newUser.password, MYKEY);
-				let plaintext2 = decryption(req.body.newUser.confirmpassword, MYKEY);
+				let plaintext = decryption(req.body.newUser.password, passwordKey);
+				let plaintext2 = decryption(req.body.newUser.confirmpassword, passwordKey);
 				if (plaintext.length < 6 || plaintext !== plaintext2) throw false;
 				return true;
 			})

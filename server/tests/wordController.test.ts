@@ -9,7 +9,6 @@ ImportMock.mockFunction(DbModule, 'default', MockClient);
 
 import { WordDao } from '../controllers/wordController';
 import { Pool } from 'pg';
-import exp from 'constants';
 
 describe('WordController methods testing', () => {
 	let wordDB: WordDao;
