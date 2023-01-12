@@ -9,13 +9,15 @@ ImportMock.mockFunction(DbModule, 'default', MockClient);
 
 import { appServer } from '../src/server';
 import request from 'supertest';
+import { encryption } from '../controllers/cryptoData';
+import { MYKEY } from '../src/users/userRouter';
 
 describe('UserRouter tests', () => {
 	describe('Get user by email in Database', () => {
 		test('Get user by email - success', async () => {
 			MockClient.query = () => Promise.resolve({ rows: [{ id: 1, name: 'User1', password: '123456' }] });
 
-			const res = await request(appServer).get('/user/find/:user@test.com');
+			const res = await request(appServer).get('/user/find/user@test.com');
 			expect(res.body).toStrictEqual({ id: 1, name: 'User1', password: '123456' });
 			expect(res.status).toBe(200);
 		});
@@ -25,7 +27,7 @@ describe('UserRouter tests', () => {
 
 			const res = await request(appServer).get('/user/find/:user@test.com');
 			expect(res.status).toBe(400);
-			expect(res.text).toBe('Email not found');
+			expect(res.text).toBe('["Email not valid."]');
 		});
 	});
 
@@ -33,7 +35,7 @@ describe('UserRouter tests', () => {
 		test('Get user by ID - success', async () => {
 			MockClient.query = () => Promise.resolve({ rows: [{ id: 1, name: 'User1', password: '123456' }] });
 
-			const res = await request(appServer).get('/user/:1');
+			const res = await request(appServer).get('/user/1');
 			expect(res.body).toStrictEqual({ id: 1, name: 'User1', password: '123456' });
 			expect(res.status).toBe(200);
 		});
@@ -41,7 +43,7 @@ describe('UserRouter tests', () => {
 		test('Get user by id - unsuccess', async () => {
 			MockClient.query = () => Promise.resolve({ rows: [] });
 
-			const res = await request(appServer).get('/user/:2');
+			const res = await request(appServer).get('/user/2');
 			expect(res.status).toBe(400);
 			expect(res.text).toBe('User not found.');
 		});
@@ -51,9 +53,10 @@ describe('UserRouter tests', () => {
 		test('Create new User - success', async () => {
 			MockClient.query = () => Promise.resolve({ rows: [] });
 
+			let password = encryption('oioioi', MYKEY);
 			const res = await request(appServer)
 				.post('/user/create')
-				.send({ name: 'User1', email: 'user@test.com', password: '123456', confirmpassword: '123456' });
+				.send({ name: 'User1', email: 'user@test.com', password: password, confirmpassword: password });
 			expect(res.text).toBe('User succesfully registered.');
 			expect(res.status).toBe(200);
 		});
@@ -62,7 +65,7 @@ describe('UserRouter tests', () => {
 			MockClient.query = () => Promise.resolve({ rows: [{ name: 'User1', email: 'user@test.com' }] });
 
 			const res = await request(appServer).post('/user/create').send({ name: 'User1', email: 'user@test.com' });
-			expect(res.text).toBe('User couldn`t be registered.');
+			expect(res.text).toBe('["Password must contain at least 6 characters"]');
 			expect(res.status).toBe(400);
 		});
 	});
@@ -71,11 +74,12 @@ describe('UserRouter tests', () => {
 		test('Update User - success', async () => {
 			MockClient.query = () => Promise.resolve({ rows: [{ id: 1, name: 'User1' }] });
 
+			let password = encryption('oioioi', MYKEY);
 			const res = await request(appServer)
 				.put('/user/updateUser')
 				.send({
 					id: 1,
-					newUser: { name: 'User1', email: 'user@test.com', password: 'abcdef', confirmpassword: 'abcdef' },
+					newUser: { name: 'User1', email: 'user@test.com', password: password, confirmpassword: password },
 				});
 			expect(res.body).toStrictEqual({ id: 1, name: 'User1' });
 			expect(res.status).toBe(200);
@@ -87,7 +91,7 @@ describe('UserRouter tests', () => {
 				.put('/user/updateUser')
 				.send({ id: 1, newUser: { name: 'User1', email: 'user@test.com' } });
 			expect(res.status).toBe(400);
-			expect(res.text).toBe('Couldn`t update the user informations.');
+			expect(res.text).toBe('["Password not valid."]');
 		});
 	});
 

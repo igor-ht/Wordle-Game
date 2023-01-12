@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { check, Result, ValidationError, validationResult } from 'express-validator';
+import { MYKEY } from '../src/users/userRouter';
 import { decryption } from './cryptoData';
 
 const passwordKey = process.env.APP_MYKEY_PASS! || '!@#PasswordEncryption$%^';
@@ -59,21 +60,19 @@ export async function validateUser(req: Request, res: Response, next: NextFuncti
 
 export async function validadeUserUpdate(req: Request, res: Response, next: NextFunction) {
 	await check('id').isInt({ gt: 0, lt: 101 }).withMessage('ID not valid.').run(req),
-		await check('uemail').isEmail().withMessage('Email not valid').run(req),
-		await check('uname')
+		await check('newUser.email').isEmail().withMessage('Email not valid').run(req),
+		await check('newUser.name')
 			.isLength({ min: 2, max: 50 })
 			.withMessage('Your name must be between 2 and 50 characters.')
 			.run(req),
-		await check('upassword')
-			.isLength({ min: 6 })
-			.withMessage('Your password must contain at least 6 characters.')
-			.run(req),
-		await check('ucpassword')
+		await check('newUser.password')
 			.custom((value, { req }) => {
-				if (value !== req.body.upassword) return false;
+				let plaintext = decryption(req.body.newUser.password, MYKEY);
+				let plaintext2 = decryption(req.body.newUser.confirmpassword, MYKEY);
+				if (plaintext.length < 6 || plaintext !== plaintext2) throw false;
 				return true;
 			})
-			.withMessage('Password confirmation does not match password')
+			.withMessage('Password not valid.')
 			.run(req);
 
 	const errors = validationResult(req);

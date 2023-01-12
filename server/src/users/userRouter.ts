@@ -4,7 +4,7 @@ import { getUserByEmail, getUserByID, createNewUser, updateUser, deleteUser } fr
 
 const userRouter = express.Router();
 
-export const MYKEY = process.env.APP_MYKEY_PASS!;
+export const MYKEY = process.env.APP_MYKEY_PASS! || '!@#PasswordEncryption$%^';
 
 userRouter.get('/', (req, res) => {
 	res.status(200);
