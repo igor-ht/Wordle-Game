@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { encryption } from '../../controllers/cryptoData';
-import { WordDao } from '../../controllers/wordController';
-import checkDbConnection from '../../models/db.client';
+import { encryption } from '../../Controllers/cryptoData';
+import { WordDao } from '../../Controllers/wordController';
+import checkDbConnection from '../../Models/db.client';
 import { MYKEY } from './wordRouter';
 
 let WordService: WordDao;

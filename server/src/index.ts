@@ -1,7 +1,7 @@
-import { connectDataBase } from '../models/db.client';
+import { connectDataBase } from '../Models/db.client';
 import { appServer } from './server';
-import { serverConfig } from './serverConfig';
-import { dbConfig } from './serverConfig';
+import { serverConfig } from './Config/serverConfig';
+import { dbConfig } from './Config/serverConfig';
 
 async function startApp() {
 	await connectDataBase(dbConfig);

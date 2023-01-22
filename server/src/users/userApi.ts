@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { IUser, UserDao } from '../../controllers/userController';
-import checkDbConnection from '../../models/db.client';
+import { IUser, UserDao } from '../../Controllers/userController';
+import checkDbConnection from '../../Models/db.client';
 
 let UserService: UserDao;
 export default function UserDB() {

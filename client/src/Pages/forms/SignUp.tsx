@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import WordleContext from '../../Context/wordleContext';
 
 export function SignUp() {
+	
 	const { handleUserRegistration } = useContext(WordleContext);
 
 	const formRef: RefObject<HTMLFormElement> = useRef(null);

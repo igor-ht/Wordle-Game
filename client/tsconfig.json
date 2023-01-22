@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"target": "es5",
+		"target": "ES6",
 		"lib": ["dom", "dom.iterable", "esnext"],
 		"allowJs": true,
 		"skipLibCheck": true,
@@ -14,7 +14,10 @@
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"noEmit": true,
-		"jsx": "react-jsx"
+		"jsx": "react-jsx",
+		"types": ["node", "cypress"],
+		"experimentalDecorators": true
 	},
-	"exclude": ["node_modules"]
+	"include": ["./node_modules/cypress", "./**/*.tsx"],
+	"exclude": ["**/*.test.ts", "**/*.spec.ts", "**/*.cy.ts"]
 }

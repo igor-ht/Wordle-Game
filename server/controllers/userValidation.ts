@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { check, Result, ValidationError, validationResult } from 'express-validator';
 import { decryption } from './cryptoData';
-import { serverConfig } from '../src/serverConfig'
+import { serverConfig } from '../src/Config/serverConfig';
 
 const passwordKey = serverConfig.PASS_KEY!;
 

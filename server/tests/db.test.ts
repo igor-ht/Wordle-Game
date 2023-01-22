@@ -1,5 +1,5 @@
 import { describe, expect, test } from '@jest/globals';
-import checkDbConnection from '../models/db.client';
+import checkDbConnection from '../Models/db.client';
 
 describe('Testing database connection', () => {
 	test('Should throw for checking connection with database', () => {

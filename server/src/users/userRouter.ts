@@ -1,7 +1,7 @@
 import express from 'express';
-import { validadeUserUpdate, validateEmail, validateID, validateUser } from '../../controllers/userValidation';
+import { validadeUserUpdate, validateEmail, validateID, validateUser } from '../../Controllers/userValidation';
 import { getUserByEmail, getUserByID, createNewUser, updateUser, deleteUser } from './userApi';
-import { serverConfig } from '../serverConfig';
+import { serverConfig } from '../Config/serverConfig';
 
 const userRouter = express.Router();
 

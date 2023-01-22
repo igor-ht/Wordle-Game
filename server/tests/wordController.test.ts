@@ -1,5 +1,5 @@
 import { ImportMock } from 'ts-mock-imports';
-import * as DbModule from '../models/db.client';
+import * as DbModule from '../Models/db.client';
 
 const MockClient: { query: any } = {
 	query: null,
@@ -7,7 +7,7 @@ const MockClient: { query: any } = {
 
 ImportMock.mockFunction(DbModule, 'default', MockClient);
 
-import { WordDao } from '../controllers/wordController';
+import { WordDao } from '../Controllers/wordController';
 import { Pool } from 'pg';
 
 describe('WordController methods testing', () => {

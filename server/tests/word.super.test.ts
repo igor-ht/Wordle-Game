@@ -1,5 +1,5 @@
 import { ImportMock } from 'ts-mock-imports';
-import * as DbModule from '../models/db.client';
+import * as DbModule from '../Models/db.client';
 
 const MockClient: { query: any } = {
 	query: null,
@@ -10,7 +10,7 @@ ImportMock.mockFunction(DbModule, 'default', MockClient);
 
 import { appServer } from '../src/server';
 import request from 'supertest';
-import { decryption } from '../controllers/cryptoData';
+import { decryption } from '../Controllers/cryptoData';
 
 describe('WordRouter tests with Database', () => {
 	describe('Post new word in DB test', () => {

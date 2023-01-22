@@ -1,7 +1,7 @@
 import { Fragment, KeyboardEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { encryption, decryption } from './cryptoData';
-import {PASS_KEY, WORD_KEY, host, origin} from '../serverConfig';
+import {PASS_KEY, WORD_KEY, host, origin} from '../Config/serverConfig';
 
 const PASSKEY = PASS_KEY!;
 const WORDKEY = WORD_KEY!;

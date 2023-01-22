@@ -1,8 +1,8 @@
 import express from 'express';
 import cors from 'cors';
-import { serverConfig } from './serverConfig';
-import wordRouter from './word/wordRouter';
-import userRouter from './users/userRouter';
+import { serverConfig } from './Config/serverConfig';
+import wordRouter from './Word/wordRouter';
+import userRouter from './Users/userRouter';
 
 export const appServer = express();
 

@@ -1,5 +1,5 @@
 import { ImportMock } from 'ts-mock-imports';
-import * as DbModule from '../models/db.client';
+import * as DbModule from '../Models/db.client';
 
 const MockClient: { query: any } = {
 	query: null,
@@ -9,8 +9,8 @@ ImportMock.mockFunction(DbModule, 'default', MockClient);
 
 import { appServer } from '../src/server';
 import request from 'supertest';
-import { encryption } from '../controllers/cryptoData';
-import { MYKEY } from '../src/users/userRouter';
+import { encryption } from '../Controllers/cryptoData';
+import { MYKEY } from '../src/Users/userRouter';
 
 describe('UserRouter tests', () => {
 	describe('Get user by email in Database', () => {

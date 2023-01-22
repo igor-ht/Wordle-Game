@@ -1,6 +1,6 @@
 import express from 'express';
 import { getRandomWord, postNewWord, getUserByID, updateWord, deleteWord } from './wordApi';
-import { serverConfig } from '../serverConfig';
+import { serverConfig } from '../Config/serverConfig';
 
 const wordRouter = express.Router();
 
