@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import WordleContext from '../../Context/wordleContext';
 
-export function HomePage() {
+function HomePage() {
 	const { createStatePicture, user, setUser } = useContext(WordleContext);
 
 	createStatePicture();
@@ -61,3 +61,5 @@ export function HomePage() {
 		</nav>
 	);
 }
+
+export default HomePage;

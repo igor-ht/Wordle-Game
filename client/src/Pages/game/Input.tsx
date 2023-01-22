@@ -1,8 +1,8 @@
-import * as React from 'react';
+import { useContext } from 'react';
 import WordleContext from '../../Context/wordleContext';
 
-export const InputConstructor = () => {
-	const { inputBoard } = React.useContext(WordleContext);
+const InputConstructor = () => {
+	const { inputBoard } = useContext(WordleContext);
 
 	return <>{inputBoard()}</>;
 };

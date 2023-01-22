@@ -2,8 +2,7 @@ import { RefObject, useContext, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import WordleContext from '../../Context/wordleContext';
 
-export function SignIn() {
-	
+function SignIn() {
 	const { userLogIn } = useContext(WordleContext);
 
 	const formRef: RefObject<HTMLFormElement> = useRef(null);
@@ -86,3 +85,5 @@ export function SignIn() {
 		</section>
 	);
 }
+
+export default SignIn;

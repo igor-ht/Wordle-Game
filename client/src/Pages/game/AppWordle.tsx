@@ -1,7 +1,7 @@
 import Input from './Input';
 import Keyboard from './Keyboard';
 
-export function AppWordle() {
+function AppWordle() {
 	return (
 		<div className="wordleDisplay">
 			<Input></Input>
@@ -9,3 +9,5 @@ export function AppWordle() {
 		</div>
 	);
 }
+
+export default AppWordle;

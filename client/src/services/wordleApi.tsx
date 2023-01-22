@@ -6,24 +6,24 @@ import {PASS_KEY, WORD_KEY, host, origin} from '../Config/serverConfig';
 const PASSKEY = PASS_KEY!;
 const WORDKEY = WORD_KEY!;
 
-export interface InputInterface {
+ interface InputInterface {
 	inputId: number;
 	inputValue: string;
 	inputStatus: string;
 }
 
-export interface StateInterface {
+ interface StateInterface {
 	randomWord: String;
 	insertedLetters: String[];
 	statePicture: InputInterface[][];
 }
 
-export interface UserData {
+ interface UserData {
 	name: String;
 	password: String;
 }
 
-export function WordleApi() {
+function WordleApi() {
 	const navigate = useNavigate();
 
 	const [user, setUser] = useState<UserData>({
@@ -415,3 +415,5 @@ export function WordleApi() {
 		userLogIn,
 	};
 }
+
+export default WordleApi;
