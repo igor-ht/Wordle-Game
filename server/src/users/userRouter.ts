@@ -1,6 +1,6 @@
 import express from 'express';
 import { validadeUserUpdate, validateEmail, validateID, validateUser } from '../../Controllers/userValidation';
-import { getUserByEmail, getUserByID, createNewUser, updateUser, deleteUser } from './userApi';
+import { getUserByEmail, getUserByID, createNewUser, updateUser, deleteUser, userLogin } from './userApi';
 import { serverConfig } from '../Config/serverConfig';
 
 const userRouter = express.Router();
@@ -17,6 +17,8 @@ userRouter.get('/find/:email', validateEmail, getUserByEmail);
 userRouter.get('/:id', validateID, getUserByID);
 
 userRouter.post('/create', validateUser, createNewUser);
+
+userRouter.post('/login', userLogin);
 
 userRouter.put('/updateUser', validadeUserUpdate, updateUser);
 

@@ -17,6 +17,6 @@ appServer.use(express.json());
 
 appServer.use(express.urlencoded({ extended: false }));
 
-appServer.use('/word', wordRouter);
-
 appServer.use('/user', userRouter);
+
+appServer.use('/word', wordRouter);

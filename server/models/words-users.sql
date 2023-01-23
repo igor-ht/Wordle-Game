@@ -31,6 +31,7 @@ CREATE TABLE users (
 );
 
 SELECT * FROM users;
+
 TRUNCATE TABLE users RESTART IDENTITY;
 
 

@@ -388,13 +388,21 @@ function WordleApi() {
 
 	const userLogIn = async (formRef: HTMLFormElement) => {
 		const inputs = formRef.getElementsByTagName('input') as HTMLCollectionOf<HTMLInputElement>;
-		const res = await fetch(`http://${host}:${origin}/user/find/${inputs[0].value}`);
-		const userFromDb = await res.json();
-		if (userFromDb.email === inputs[0].value && decryption(userFromDb.password, PASSKEY) === inputs[1].value) {
-			setUser({ name: userFromDb.name, password: userFromDb.password });
+		try {
+			const res = await fetch(`http://${host}:${origin}/user/login`, {
+				method: 'post',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ email: inputs[0].value, password: inputs[1].value }),
+			});
+
+			const { token, name, email, password } = await res.json();
+			localStorage.setItem('jwt', token);
+			setUser({ name: name, password: password });
 			navigate('/play');
-		} else {
-			alert('One or more fields are invalid.');
+		} catch (error) {
+			alert('Email or password not valid.');
 		}
 	};
 
