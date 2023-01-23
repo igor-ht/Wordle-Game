@@ -15,7 +15,7 @@ import { decryption } from '../Controllers/cryptoData';
 describe('WordRouter tests with Database', () => {
 	describe('Post new word in DB test', () => {
 		test('Post good new Word expect 200', async () => {
-			MockClient.query = () => Promise.resolve({ rows: [{ id: 1, word: 'tests' }] });
+			MockClient.query = () => Promise.resolve({ rows: [{ word: 'tests' }] });
 
 			const res = await request(appServer).post('/word/newWord').send({ word: 'tests' });
 			expect(res.text).toBe('The new word was succesfully added to the database');

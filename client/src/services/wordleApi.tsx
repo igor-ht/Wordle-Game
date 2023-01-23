@@ -1,24 +1,24 @@
 import { Fragment, KeyboardEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { encryption, decryption } from './cryptoData';
-import {PASS_KEY, WORD_KEY, host, origin} from '../Config/serverConfig';
+import { PASS_KEY, WORD_KEY, host, origin } from '../Config/serverConfig';
 
 const PASSKEY = PASS_KEY!;
 const WORDKEY = WORD_KEY!;
 
- interface InputInterface {
+interface InputInterface {
 	inputId: number;
 	inputValue: string;
 	inputStatus: string;
 }
 
- interface StateInterface {
+interface StateInterface {
 	randomWord: String;
 	insertedLetters: String[];
 	statePicture: InputInterface[][];
 }
 
- interface UserData {
+interface UserData {
 	name: String;
 	password: String;
 }
@@ -77,7 +77,7 @@ function WordleApi() {
 		);
 	};
 
-	function createInputRow(row: InputInterface[], i: Number) {
+	const createInputRow = (row: InputInterface[], i: Number) => {
 		return (
 			<Fragment key={Math.random().toString()}>
 				{row.map((input: InputInterface, j: Number) =>
@@ -107,9 +107,9 @@ function WordleApi() {
 				)}
 			</Fragment>
 		);
-	}
+	};
 
-	function createKeyboard() {
+	const createKeyboard = () => {
 		let keyboardArray = [
 			'Q',
 			'W',
@@ -177,7 +177,7 @@ function WordleApi() {
 				);
 			}
 		});
-	}
+	};
 
 	const restartKeyboard = (element: HTMLInputElement) => {
 		let keyboard = element.parentNode?.nextSibling as HTMLElement;
@@ -187,7 +187,6 @@ function WordleApi() {
 		});
 	};
 
-	// update the keyboard buttons color by bull, cow, wrong
 	const handleInputInKeyboard = (target: HTMLInputElement, row: InputInterface[]) => {
 		const keyboard = target.parentNode?.nextSibling as HTMLElement;
 		const allChar = keyboard.querySelectorAll('button');
@@ -218,7 +217,7 @@ function WordleApi() {
 		}
 	};
 
-	function updateGameStateInputValues(currentTarget: HTMLInputElement) {
+	const updateGameStateInputValues = (currentTarget: HTMLInputElement) => {
 		gameState.statePicture.forEach((inputRow: InputInterface[]) => {
 			inputRow.forEach((inputItem: InputInterface, index: number) => {
 				if (inputItem.inputId.toString() === currentTarget.id) {
@@ -241,9 +240,9 @@ function WordleApi() {
 				}
 			});
 		});
-	}
+	};
 
-	function handleInputElement(currentTarget: HTMLInputElement) {
+	const handleInputElement = (currentTarget: HTMLInputElement) => {
 		let targetSibling = currentTarget.nextElementSibling as HTMLInputElement;
 		if (currentTarget.nextElementSibling !== null) {
 			targetSibling.removeAttribute('disabled');
@@ -260,7 +259,7 @@ function WordleApi() {
 				}
 			}
 		}
-	}
+	};
 
 	const handleInputLetter = (event: KeyboardEvent<HTMLInputElement>) => {
 		event.preventDefault();
@@ -273,7 +272,7 @@ function WordleApi() {
 		handleInputElement(event.currentTarget);
 	};
 
-	function handleUserInputWord(inputRow: InputInterface[], element: HTMLInputElement) {
+	const handleUserInputWord = (inputRow: InputInterface[], element: HTMLInputElement) => {
 		let currentElement = element as HTMLInputElement;
 		let BullLetters = 0;
 		for (let i = 4; i > -1; i--) {
@@ -295,9 +294,9 @@ function WordleApi() {
 			}, 500);
 		} else {
 		}
-	}
+	};
 
-	function backSpace(event: React.MouseEvent<HTMLButtonElement>) {
+	const backSpace = (event: React.MouseEvent<HTMLButtonElement>) => {
 		let inputContainer = event.currentTarget.parentElement?.previousElementSibling as HTMLElement;
 		let currentInput = inputContainer.firstElementChild as HTMLInputElement;
 		let indexRow = 0;
@@ -323,9 +322,9 @@ function WordleApi() {
 		} else {
 			currentInput.focus();
 		}
-	}
+	};
 
-	function keyboardInput(event: React.MouseEvent<HTMLButtonElement>) {
+	const keyboardInput = (event: React.MouseEvent<HTMLButtonElement>) => {
 		if (event.currentTarget.id === 'Enter') {
 			return;
 		} else if (event.currentTarget.id === 'BckSpc') {
@@ -344,7 +343,7 @@ function WordleApi() {
 			handleInputElement(currentInput);
 		}
 		updateGameStateInputValues(currentInput);
-	}
+	};
 
 	const handleUserRegistration = async (formRef: HTMLFormElement) => {
 		try {

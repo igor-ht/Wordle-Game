@@ -50,7 +50,7 @@ export class UserDao implements ICrudDao<IDisplayUser, IUser> {
 	public async update(id: number, user: IUser): Promise<IDisplayUser> {
 		const { name, email, password } = user;
 		const res = await this.db.query(
-			'UPDATE users SET uname = $2, uemail = $3, upassword = S4 WHERE uid = $1 RETURNING uname as User_Name, uemail as User_Email, uregistration as User_Registration',
+			'UPDATE users SET uname = $2, uemail = $3, upassword = $4 WHERE uid = $1 RETURNING uname as User_Name, uemail as User_Email, uregistration as User_Registration',
 			[id, name, email, password]
 		);
 		const row = await res.rows[0];
@@ -59,7 +59,7 @@ export class UserDao implements ICrudDao<IDisplayUser, IUser> {
 
 	public async delete(id: number): Promise<boolean> {
 		const delres = await this.db.query('DELETE FROM users WHERE uid = $1', [id]);
-		if (delres.rowCount === 0) return true;
+		if (delres.rowCount === 1) return true;
 		return false;
 	}
 

@@ -18,8 +18,8 @@ export class WordDao implements ICrudDao<Word, NewWord> {
 
 	public async create(newWord: NewWord): Promise<boolean> {
 		if (newWord.word.length !== 5) return false;
-		const res = await this.db.query('INSERT INTO words (word) VALUES ($1)', [newWord.word]);
-		return res.rows[0] ? true : false;
+		const res = await this.db.query('INSERT INTO words (word) VALUES ($1) RETURNING *', [newWord.word]);
+		return res.rows.length > 0 ? true : false;
 	}
 
 	public async read(id: number): Promise<Word> {
@@ -31,7 +31,7 @@ export class WordDao implements ICrudDao<Word, NewWord> {
 
 	public async update(id: number, newWord: NewWord): Promise<Word> {
 		if (newWord.word.length !== 5) throw new Error('Word not valid');
-		const res = await this.db.query('UPDATE words SET words = $1 WHERE id = $2', [newWord.word, id]);
+		const res = await this.db.query('UPDATE words SET word = $1 WHERE id = $2 RETURNING *', [newWord.word, id]);
 		const data = await res.rows[0];
 		return data;
 	}

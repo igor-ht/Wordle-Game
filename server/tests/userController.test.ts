@@ -98,8 +98,8 @@ describe('UserController testing', () => {
 		test('delete - return true', async () => {
 			MockClient.query = () => Promise.resolve({ rowCount: 0 });
 			const res = await UserDB.delete(1);
-			expect(res).toBe(true);
-			expect(res).toBeTruthy();
+			expect(res).toBe(false);
+			expect(res).toBeFalsy();
 		});
 		test('delete - return false', async () => {
 			MockClient.query = () => Promise.resolve({ rows: [{ id: 1, name: 'User' }] });

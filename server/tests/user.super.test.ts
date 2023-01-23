@@ -65,7 +65,7 @@ describe('UserRouter tests', () => {
 			MockClient.query = () => Promise.resolve({ rows: [{ name: 'User1', email: 'user@test.com' }] });
 
 			const res = await request(appServer).post('/user/create').send({ name: 'User1', email: 'user@test.com' });
-			expect(res.text).toBe('["Password must contain at least 6 characters"]');
+			expect(res.text).toBe('["Password must contain at least 6 characters."]');
 			expect(res.status).toBe(400);
 		});
 	});
@@ -97,7 +97,7 @@ describe('UserRouter tests', () => {
 
 	describe('Delete User from Database', () => {
 		test('Delete User - success', async () => {
-			MockClient.query = () => Promise.resolve({ rowCount: 0 });
+			MockClient.query = () => Promise.resolve({ rowCount: 1 });
 
 			const res = await request(appServer).del('/user/deleteUser').send({ id: 1 });
 			expect(res.status).toBe(200);
@@ -105,7 +105,7 @@ describe('UserRouter tests', () => {
 		});
 
 		test('Delete User - unsuccess', async () => {
-			MockClient.query = () => Promise.resolve({ rowCount: 1 });
+			MockClient.query = () => Promise.resolve({ rowCount: 0 });
 
 			const res = await request(appServer).delete('/user/deleteUser').send({ id: 1 });
 			expect(res.status).toBe(400);

@@ -34,11 +34,11 @@ function HomePage() {
 							to={'/home'}>
 							Home
 						</Link>
-						<Link
+						{ user.name === 'Guest' && <Link
 							className="nav-link fs-4"
 							to={'/sign-in'}>
 							Sign In
-						</Link>
+						</Link>}
 						<Link
 							className="nav-link fs-4"
 							to={'/play'}>
