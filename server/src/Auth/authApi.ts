@@ -1,11 +1,11 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { serverConfig } from '../Config/serverConfig';
 
-const MY_JWT_KEY = serverConfig.JWT_KEY!;
+const MY_JWT_KEY = serverConfig.JWT_KEY;
 
-export const createToken = (user: any) => {
+export const createToken = (user: { email: string; password: string }) => {
 	const { email, password } = user;
-	const token = jwt.sign({ email, password }, MY_JWT_KEY, { expiresIn: '1h' });
+	const token = jwt.sign({ email }, MY_JWT_KEY, { expiresIn: '1h' });
 	return token;
 };
 

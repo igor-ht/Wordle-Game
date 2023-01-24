@@ -11,6 +11,7 @@ ImportMock.mockFunction(DbModule, 'default', MockClient);
 import { appServer } from '../src/server';
 import request from 'supertest';
 import { decryption } from '../Controllers/cryptoData';
+import { MYKEY } from '../src/Word/wordRouter';
 
 describe('WordRouter tests with Database', () => {
 	describe('Post new word in DB test', () => {
@@ -35,7 +36,7 @@ describe('WordRouter tests with Database', () => {
 		MockClient.query = () => Promise.resolve({ rows: [{ word: 'peace' }] });
 
 		const res = await request(appServer).get('/word/randWord');
-		expect(decryption(res.text, process.env.APP_MYKEY_WORD! || '!@#EncryptionWord$%^')).toBe('peace');
+		expect(decryption(res.text, MYKEY)).toBe('peace');
 		expect(res.status).toBe(200);
 	});
 

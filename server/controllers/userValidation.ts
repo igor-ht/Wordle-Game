@@ -1,16 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
 import { check, Result, ValidationError, validationResult } from 'express-validator';
-import { decryption } from './cryptoData';
-import { serverConfig } from '../src/Config/serverConfig';
-
-const passwordKey = serverConfig.PASS_KEY!;
 
 export async function validateEmail(req: Request, res: Response, next: NextFunction) {
 	await check('email').isEmail().withMessage('Email not valid.').run(req);
 
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
-		let msgs: string[] = [];
+		const msgs: string[] = [];
 		errors.array().forEach((er) => {
 			msgs.push(er.msg);
 		});
@@ -24,7 +20,7 @@ export async function validateID(req: Request, res: Response, next: NextFunction
 
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
-		let msgs: string[] = [];
+		const msgs: string[] = [];
 		errors.array().forEach((er) => {
 			msgs.push(er.msg);
 		});
@@ -43,7 +39,7 @@ export async function validateUser(req: Request, res: Response, next: NextFuncti
 
 	const errors: Result<ValidationError> = validationResult(req);
 	if (!errors.isEmpty()) {
-		let msgs: string[] = [];
+		const msgs: string[] = [];
 		errors.array().forEach((er) => {
 			msgs.push(er.msg);
 		});
@@ -63,7 +59,7 @@ export async function validadeUserUpdate(req: Request, res: Response, next: Next
 
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
-		let msgs: string[] = [];
+		const msgs: string[] = [];
 		errors.array().forEach((er) => {
 			msgs.push(er.msg);
 		});

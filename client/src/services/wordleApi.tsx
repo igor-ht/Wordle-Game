@@ -1,4 +1,4 @@
-import { Fragment, KeyboardEvent, useEffect, useState } from 'react';
+import { KeyboardEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { encryption, decryption } from './cryptoData';
 import { PASS_KEY, WORD_KEY, host, origin } from '../Config/serverConfig';
@@ -6,7 +6,7 @@ import { PASS_KEY, WORD_KEY, host, origin } from '../Config/serverConfig';
 const PASSKEY = PASS_KEY!;
 const WORDKEY = WORD_KEY!;
 
-interface InputInterface {
+export interface InputInterface {
 	inputId: number;
 	inputValue: string;
 	inputStatus: string;
@@ -56,7 +56,7 @@ function WordleApi() {
 				let array: InputInterface[] = [];
 				for (let j = 1; j < 6; j++) {
 					let new_object: InputInterface = {
-						inputId: Math.random() * Date.now(),
+						inputId: Math.random(),
 						inputValue: '',
 						inputStatus: 'empty',
 					};
@@ -65,118 +65,6 @@ function WordleApi() {
 				gameState.statePicture.push(array);
 			}
 		}
-	};
-
-	const inputBoard = () => {
-		return (
-			<div
-				className="myContainer"
-				key={Math.random().toString()}>
-				{gameState.statePicture.map((row: InputInterface[], index: Number) => createInputRow(row, index))}
-			</div>
-		);
-	};
-
-	const createInputRow = (row: InputInterface[], i: Number) => {
-		return (
-			<Fragment key={Math.random().toString()}>
-				{row.map((input: InputInterface, j: Number) =>
-					i === 0 && j === 0 ? (
-						<input
-							type={'text'}
-							key={input.inputId.toString()}
-							id={input.inputId.toString()}
-							onKeyDown={handleInputLetter}
-							minLength={1}
-							maxLength={1}
-							required
-							autoFocus
-						/>
-					) : (
-						<input
-							type={'text'}
-							key={input.inputId.toString()}
-							id={input.inputId.toString()}
-							onKeyDown={handleInputLetter}
-							minLength={1}
-							maxLength={1}
-							required
-							disabled
-						/>
-					)
-				)}
-			</Fragment>
-		);
-	};
-
-	const createKeyboard = () => {
-		let keyboardArray = [
-			'Q',
-			'W',
-			'E',
-			'R',
-			'T',
-			'Y',
-			'U',
-			'I',
-			'O',
-			'P',
-			'Enter',
-			'A',
-			'S',
-			'D',
-			'F',
-			'G',
-			'H',
-			'J',
-			'K',
-			'L',
-			'Z',
-			'X',
-			'C',
-			'V',
-			'B',
-			'N',
-			'M',
-			'BckSpc',
-		];
-		return keyboardArray.map((char) => {
-			if (char === 'Enter') {
-				return (
-					<button
-						type="button"
-						className="enter"
-						key={char}
-						id={char}
-						onClick={keyboardInput}
-						disabled>
-						<p>{char}</p>
-					</button>
-				);
-			} else if (char === 'BckSpc') {
-				return (
-					<button
-						type="button"
-						className="backSpace"
-						key={char}
-						id={char}
-						onClick={keyboardInput}>
-						<p>{char}</p>
-					</button>
-				);
-			} else {
-				return (
-					<button
-						type="button"
-						key={char}
-						id={char}
-						onClick={keyboardInput}
-						style={{ maxWidth: '100%' }}>
-						<p>{char}</p>
-					</button>
-				);
-			}
-		});
 	};
 
 	const restartKeyboard = (element: HTMLInputElement) => {
@@ -397,7 +285,7 @@ function WordleApi() {
 				body: JSON.stringify({ email: inputs[0].value, password: inputs[1].value }),
 			});
 
-			const { token, name, email, password } = await res.json();
+			const { token, name, password } = await res.json();
 			localStorage.setItem('jwt', token);
 			setUser({ name: name, password: password });
 			navigate('/play');
@@ -409,10 +297,7 @@ function WordleApi() {
 	return {
 		gameState,
 		setGameState,
-		inputBoard,
 		createStatePicture,
-		createInputRow,
-		createKeyboard,
 		user,
 		setUser,
 		navigate,
@@ -420,6 +305,8 @@ function WordleApi() {
 		decryption,
 		handleUserRegistration,
 		userLogIn,
+		keyboardInput,
+		handleInputLetter,
 	};
 }
 

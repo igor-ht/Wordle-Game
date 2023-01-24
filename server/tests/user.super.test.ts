@@ -53,7 +53,7 @@ describe('UserRouter tests', () => {
 		test('Create new User - success', async () => {
 			MockClient.query = () => Promise.resolve({ rows: [] });
 
-			let password = encryption('oioioi', MYKEY);
+			const password = encryption('oioioi', MYKEY);
 			const res = await request(appServer)
 				.post('/user/create')
 				.send({ name: 'User1', email: 'user@test.com', password: password, confirmpassword: password });
@@ -74,7 +74,7 @@ describe('UserRouter tests', () => {
 		test('Update User - success', async () => {
 			MockClient.query = () => Promise.resolve({ rows: [{ id: 1, name: 'User1' }] });
 
-			let password = encryption('oioioi', MYKEY);
+			const password = encryption('oioioi', MYKEY);
 			const res = await request(appServer)
 				.put('/user/updateUser')
 				.send({

@@ -5,7 +5,7 @@ import { serverConfig } from '../Config/serverConfig';
 
 const userRouter = express.Router();
 
-export const MYKEY = serverConfig.PASS_KEY!;
+export const MYKEY = serverConfig.PASS_KEY;
 
 userRouter.get('/', (req, res) => {
 	res.status(200);

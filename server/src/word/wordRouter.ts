@@ -4,7 +4,7 @@ import { serverConfig } from '../Config/serverConfig';
 
 const wordRouter = express.Router();
 
-export const MYKEY = serverConfig.WORD_KEY!;
+export const MYKEY = serverConfig.WORD_KEY;
 
 wordRouter.get('/', (req, res) => {
 	res.send('connected');

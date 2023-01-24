@@ -60,7 +60,7 @@ describe('WordController methods testing', () => {
 			const res = await wordDB.update(1, { word: 'tests' });
 			expect(res).toBe(undefined);
 			try {
-				const res2 = await wordDB.update(1, { word: 'test' });
+				await wordDB.update(1, { word: 'test' });
 			} catch (error: any) {
 				expect(error.message).toBe('Word not valid');
 			}
@@ -92,7 +92,7 @@ describe('WordController methods testing', () => {
 		test('getRandomWord - throw error', async () => {
 			MockClient.query = () => Promise.resolve({ rows: [] });
 			try {
-				const res = await wordDB.getRandomWord();
+				await wordDB.getRandomWord();
 			} catch (error: any) {
 				expect(error.message).toBe('Couldn`t get random word.');
 			}
