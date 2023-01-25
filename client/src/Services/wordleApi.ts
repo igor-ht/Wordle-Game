@@ -1,15 +1,9 @@
 import { ChangeEvent, createRef, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { encryption, decryption } from './cryptoData';
+import { encryption } from './cryptoData';
 import { PASS_KEY, host, origin } from '../Config/serverConfig';
 
 const PASSKEY = PASS_KEY!;
-
-export interface InputInterface {
-	inputId: number;
-	inputValue: string;
-	inputStatus: string;
-}
 
 interface StateInterface {
 	randomWord: String;
@@ -18,9 +12,15 @@ interface StateInterface {
 	currentInputId: number;
 }
 
-interface UserData {
+export interface InputInterface {
+	inputId: number;
+	inputValue: string;
+	inputStatus: string;
+}
+
+interface IUserData {
 	name: String;
-	password: String;
+	email: String;
 }
 
 function WordleApi() {
@@ -30,9 +30,9 @@ function WordleApi() {
 	const LoginFormRef = createRef<HTMLFormElement>();
 	const RegistrationFormRef = createRef<HTMLFormElement>();
 
-	const [user, setUser] = useState<UserData>({
+	const [user, setUser] = useState<IUserData>({
 		name: 'Guest',
-		password: '',
+		email: '',
 	});
 
 	const [gameState, setGameState] = useState<StateInterface>({
@@ -55,7 +55,7 @@ function WordleApi() {
 			.catch((err) => console.log(err));
 	});
 
-	const createStatePicture = () => {
+	function createStatePicture() {
 		if (gameState.statePicture.length < 1) {
 			let index = 0;
 			for (let i = 1; i < 7; i++) {
@@ -72,7 +72,7 @@ function WordleApi() {
 				gameState.statePicture.push(array);
 			}
 		}
-	};
+	}
 
 	function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
 		const data = event.target.value;
@@ -86,10 +86,7 @@ function WordleApi() {
 
 	function handleDigitalKeyboardInput(event: React.MouseEvent<HTMLButtonElement>) {
 		if (event.currentTarget.id === 'Enter') return;
-		if (event.currentTarget.id === 'BckSpc') {
-			if (gameState.currentInputId !== gameState.statePicture[gameState.currentIndex][0].inputId) return backSpace();
-			else return;
-		}
+		if (event.currentTarget.id === 'BckSpc') return backSpace();
 
 		const inputArray = inputContainerRef.current!.childNodes as NodeListOf<HTMLInputElement>;
 		let currentInput: HTMLInputElement;
@@ -151,12 +148,16 @@ function WordleApi() {
 
 	function handleUserGuess(inputRow: InputInterface[]) {
 		if (inputRow.every((el) => el.inputStatus === 'bull')) {
-			alert(`Victory, ${user.name}! You got the right word!`);
-			return restartGame();
+			setTimeout(() => {
+				alert(`Victory, ${user.name}! You got the right word!`);
+				return restartGame();
+			}, 1000);
 		}
 		if (inputRow === gameState.statePicture[5]) {
-			alert(`Wrong word ${user.name}. Try again!`);
-			return restartGame();
+			setTimeout(() => {
+				alert(`Wrong word, ${user.name}. Try again!`);
+				return restartGame();
+			}, 1000);
 		}
 		updateInputStatus(inputRow);
 		updateButtonStatus(inputRow);
@@ -204,6 +205,8 @@ function WordleApi() {
 	}
 
 	function backSpace() {
+		if (gameState.currentInputId === 0) return;
+		if (gameState.statePicture[gameState.currentIndex][0].inputId === gameState.currentInputId) return;
 		const inputContainer = Array.from(inputContainerRef.current!.children) as HTMLInputElement[];
 		for (let el of inputContainer) {
 			if (+el.id === gameState.currentInputId - 1) {
@@ -213,7 +216,12 @@ function WordleApi() {
 				el.focus();
 				nextSibling.disabled = true;
 				gameState.currentInputId -= 1;
-				gameState.statePicture[gameState.currentIndex][gameState.currentInputId].inputValue = '';
+
+				gameState.statePicture[gameState.currentIndex].forEach((element) => {
+					if (element.inputId === +el.id) {
+						element.inputValue = '';
+					}
+				});
 				break;
 			}
 		}
@@ -235,7 +243,7 @@ function WordleApi() {
 		navigate('/play');
 	}
 
-	const handleUserRegistration = async (formRef: HTMLFormElement) => {
+	async function handleUserRegistration(formRef: HTMLFormElement) {
 		try {
 			const inputs = formRef.getElementsByTagName('input') as HTMLCollectionOf<HTMLInputElement>;
 			if (!inputs[0].value || !inputs[1].value || !inputs[2].value || !inputs[3].value)
@@ -265,7 +273,7 @@ function WordleApi() {
 			if (data === 'User succesfully registered.') {
 				setUser({
 					name: inputs[0].value,
-					password: encryption(inputs[2].value, inputs[3].value),
+					email: inputs[2].value,
 				});
 				navigate('/home');
 			} else {
@@ -274,9 +282,9 @@ function WordleApi() {
 		} catch (error) {
 			alert(error);
 		}
-	};
+	}
 
-	const userLogIn = async (formRef: HTMLFormElement) => {
+	async function userLogIn(formRef: HTMLFormElement) {
 		const inputs = formRef.getElementsByTagName('input') as HTMLCollectionOf<HTMLInputElement>;
 		try {
 			const res = await fetch(`http://${host}:${origin}/user/login`, {
@@ -287,14 +295,14 @@ function WordleApi() {
 				body: JSON.stringify({ email: inputs[0].value, password: inputs[1].value }),
 			});
 
-			const { token, name, password } = await res.json();
+			const { token, name, email } = await res.json();
 			localStorage.setItem('jwt', token);
-			setUser({ name: name, password: password });
+			setUser({ name: name, email: email });
 			navigate('/play');
 		} catch (error) {
 			alert('Email or password not valid.');
 		}
-	};
+	}
 
 	return {
 		gameState,
@@ -302,17 +310,15 @@ function WordleApi() {
 		createStatePicture,
 		user,
 		setUser,
-		navigate,
-		encryption,
-		decryption,
 		handleUserRegistration,
+		RegistrationFormRef,
 		userLogIn,
+		LoginFormRef,
 		inputContainerRef,
 		buttonsContainerRef,
-		LoginFormRef,
-		RegistrationFormRef,
 		handleInputChange,
 		handleDigitalKeyboardInput,
+		backSpace,
 	};
 }
 

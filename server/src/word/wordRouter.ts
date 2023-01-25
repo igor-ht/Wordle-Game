@@ -13,7 +13,7 @@ wordRouter.get('/', (req, res) => {
 
 wordRouter.get('/randWord', getRandomWord);
 
-wordRouter.post('/checkGuess', checkWordGuess)
+wordRouter.post('/checkGuess', checkWordGuess);
 
 wordRouter.post('/newWord', postNewWord);
 

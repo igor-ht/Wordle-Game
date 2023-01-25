@@ -4,7 +4,7 @@ import { serverConfig } from '../Config/serverConfig';
 const MY_JWT_KEY = serverConfig.JWT_KEY;
 
 export const createToken = (user: { email: string; password: string }) => {
-	const { email, password } = user;
+	const { email } = user;
 	const token = jwt.sign({ email }, MY_JWT_KEY, { expiresIn: '1h' });
 	return token;
 };

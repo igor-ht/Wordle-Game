@@ -22,7 +22,7 @@ export async function userLogin(req: Request, res: Response) {
 		return res.status(400).send('Email or Password not valid.');
 
 	const token = createToken(user);
-	res.status(200).send({ token: token, email: user.email, name: user.name, password: user.password });
+	res.status(200).send({ token: token, email: user.email, name: user.name });
 }
 
 export async function getUserByEmail(req: Request, res: Response) {

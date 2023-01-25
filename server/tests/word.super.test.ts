@@ -10,7 +10,7 @@ ImportMock.mockFunction(DbModule, 'default', MockClient);
 
 import { appServer } from '../src/server';
 import request from 'supertest';
-import { decryption } from '../Controllers/cryptoData';
+import { decryption, encryption } from '../Controllers/cryptoData';
 import { MYKEY } from '../src/Word/wordRouter';
 
 describe('WordRouter tests with Database', () => {
@@ -62,5 +62,22 @@ describe('WordRouter tests with Database', () => {
 		const res = await request(appServer).del('/word/deleteWord').send({ id: 1 });
 		expect(res.body).toBeTruthy();
 		expect(res.status).toBe(200);
+	});
+
+	test('Check user guess', async () => {
+		const word = encryption('tests', MYKEY);
+		const res = await request(appServer)
+			.post('/word/checkGuess')
+			.send({
+				word: word,
+				row: [
+					{ inputId: 0, inputValue: 'T' },
+					{ inputId: 1, inputValue: 'E' },
+					{ inputId: 2, inputValue: 's' },
+					{ inputId: 3, inputValue: 't' },
+					{ inputId: 4, inputValue: 's' },
+				],
+			});
+		expect(res.body).toStrictEqual(['bull', 'bull', 'bull', 'bull', 'bull']);
 	});
 });

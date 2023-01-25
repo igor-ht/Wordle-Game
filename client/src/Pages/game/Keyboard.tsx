@@ -36,7 +36,9 @@ const KeyboardConstructor = () => {
 	];
 
 	return (
-		<div ref={buttonsContainerRef} className="keyboard">
+		<div
+			ref={buttonsContainerRef}
+			className="keyboard">
 			{keyboardArray.map((char) => {
 				if (char === 'Enter') {
 					return (
