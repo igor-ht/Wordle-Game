@@ -5,7 +5,7 @@ import { PASS_KEY, host, origin } from '../Config/serverConfig';
 
 const PASSKEY = PASS_KEY!;
 
-interface StateInterface {
+export interface StateInterface {
 	randomWord: String;
 	statePicture: InputInterface[][];
 	currentIndex: number;
@@ -18,7 +18,7 @@ export interface InputInterface {
 	inputStatus: string;
 }
 
-interface IUserData {
+export interface IUserData {
 	name: String;
 	email: String;
 }
@@ -37,7 +37,7 @@ function WordleApi() {
 
 	const [gameState, setGameState] = useState<StateInterface>({
 		randomWord: '',
-		statePicture: [],
+		statePicture: createStatePicture(),
 		currentIndex: 0,
 		currentInputId: 0,
 	});
@@ -56,22 +56,22 @@ function WordleApi() {
 	});
 
 	function createStatePicture() {
-		if (gameState.statePicture.length < 1) {
-			let index = 0;
-			for (let i = 1; i < 7; i++) {
-				let array: InputInterface[] = [];
-				for (let j = 1; j < 6; j++) {
-					let new_object: InputInterface = {
-						inputId: index,
-						inputValue: '',
-						inputStatus: '',
-					};
-					array.push(new_object);
-					index += 1;
-				}
-				gameState.statePicture.push(array);
+		let statePicture = [];
+		let index = 0;
+		for (let i = 1; i < 7; i++) {
+			let inputRow: InputInterface[] = [];
+			for (let j = 1; j < 6; j++) {
+				let inputObject: InputInterface = {
+					inputId: index,
+					inputValue: '',
+					inputStatus: '',
+				};
+				inputRow.push(inputObject);
+				index += 1;
 			}
+			statePicture.push(inputRow);
 		}
+		return statePicture;
 	}
 
 	function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
@@ -131,8 +131,8 @@ function WordleApi() {
 			},
 			body: JSON.stringify({ word: gameState.randomWord, row: inputRow }),
 		});
-		const ans: string[] = await res.json();
 
+		const ans: string[] = await res.json();
 		ans.forEach((check: string, index: number) => {
 			if (check === 'bull') {
 				inputRow[index].inputStatus = 'bull';
@@ -142,25 +142,24 @@ function WordleApi() {
 				inputRow[index].inputStatus = 'wrong';
 			}
 		});
-
 		return inputRow;
 	}
 
 	function handleUserGuess(inputRow: InputInterface[]) {
+		updateInputStatus(inputRow);
+		updateButtonStatus(inputRow);
 		if (inputRow.every((el) => el.inputStatus === 'bull')) {
 			setTimeout(() => {
 				alert(`Victory, ${user.name}! You got the right word!`);
-				return restartGame();
-			}, 1000);
+				restartGame();
+			}, 500);
 		}
 		if (inputRow === gameState.statePicture[5]) {
 			setTimeout(() => {
 				alert(`Wrong word, ${user.name}. Try again!`);
-				return restartGame();
-			}, 1000);
+				restartGame();
+			}, 500);
 		}
-		updateInputStatus(inputRow);
-		updateButtonStatus(inputRow);
 	}
 
 	function updateInputStatus(inputRow: InputInterface[]) {
@@ -236,11 +235,15 @@ function WordleApi() {
 		let allInput = Array.from(inputContainerRef.current!.children) as HTMLInputElement[];
 		allInput.forEach((input: HTMLInputElement) => {
 			input.classList.remove('text-bg-success', 'text-bg-warning', 'text-bg-light');
+			input.value = '';
+			if (+input.id === 0) input.focus();
 		});
 
-		gameState.currentIndex = 0;
-		gameState.currentInputId = 0;
-		navigate('/play');
+		setGameState({
+			...gameState,
+			currentIndex: 0,
+			currentInputId: 0,
+		});
 	}
 
 	async function handleUserRegistration(formRef: HTMLFormElement) {
@@ -306,8 +309,6 @@ function WordleApi() {
 
 	return {
 		gameState,
-		setGameState,
-		createStatePicture,
 		user,
 		setUser,
 		handleUserRegistration,

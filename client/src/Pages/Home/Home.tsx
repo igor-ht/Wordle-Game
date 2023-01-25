@@ -3,9 +3,7 @@ import { Link } from 'react-router-dom';
 import WordleContext from '../../Context/wordleContext';
 
 function HomePage() {
-	const { createStatePicture, user, setUser } = useContext(WordleContext);
-
-	createStatePicture();
+	const { user, setUser } = useContext(WordleContext);
 
 	return (
 		<nav

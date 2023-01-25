@@ -5,7 +5,7 @@ import './style/App.css';
 import { RouterProvider } from 'react-router-dom';
 import { wordleRouter } from './router';
 
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+export const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
 	<React.StrictMode>
 		<RouterProvider router={wordleRouter} />

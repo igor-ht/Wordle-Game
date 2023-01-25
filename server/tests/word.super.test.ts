@@ -73,9 +73,9 @@ describe('WordRouter tests with Database', () => {
 				row: [
 					{ inputId: 0, inputValue: 'T' },
 					{ inputId: 1, inputValue: 'E' },
-					{ inputId: 2, inputValue: 's' },
-					{ inputId: 3, inputValue: 't' },
-					{ inputId: 4, inputValue: 's' },
+					{ inputId: 2, inputValue: 'S' },
+					{ inputId: 3, inputValue: 'T' },
+					{ inputId: 4, inputValue: 'S' },
 				],
 			});
 		expect(res.body).toStrictEqual(['bull', 'bull', 'bull', 'bull', 'bull']);
