@@ -1,5 +1,5 @@
 import express from 'express';
-import { getRandomWord, postNewWord, getUserByID, updateWord, deleteWord } from './wordApi';
+import { getRandomWord, postNewWord, getUserByID, updateWord, deleteWord, checkWordGuess } from './wordApi';
 import { serverConfig } from '../Config/serverConfig';
 
 const wordRouter = express.Router();
@@ -12,6 +12,8 @@ wordRouter.get('/', (req, res) => {
 });
 
 wordRouter.get('/randWord', getRandomWord);
+
+wordRouter.post('/checkGuess', checkWordGuess)
 
 wordRouter.post('/newWord', postNewWord);
 

@@ -3,10 +3,12 @@ import WordleContext from '../../Context/wordleContext';
 import { InputInterface } from '../../Services/wordleApi';
 
 const InputConstructor = () => {
-	const { handleInputLetter, gameState } = useContext(WordleContext);
+	const { gameState, inputContainerRef, handleInputChange } = useContext(WordleContext);
+	
 
 	return (
 		<div
+			ref={(el) => { inputContainerRef.current = el; }}
 			className="myContainer"
 			key={Math.random().toString()}>
 			{gameState.statePicture.map((row: InputInterface[], i: Number) => (
@@ -17,7 +19,8 @@ const InputConstructor = () => {
 								type={'text'}
 								key={input.inputId.toString()}
 								id={input.inputId.toString()}
-								onKeyDown={handleInputLetter}
+								onChange={handleInputChange}
+								
 								minLength={1}
 								maxLength={1}
 								required
@@ -28,7 +31,7 @@ const InputConstructor = () => {
 								type={'text'}
 								key={input.inputId.toString()}
 								id={input.inputId.toString()}
-								onKeyDown={handleInputLetter}
+								onChange={handleInputChange}
 								minLength={1}
 								maxLength={1}
 								required

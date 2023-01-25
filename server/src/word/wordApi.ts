@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { encryption } from '../../Controllers/cryptoData';
+import { decryption, encryption } from '../../Controllers/cryptoData';
 import { WordDao } from '../../Controllers/wordController';
 import checkDbConnection from '../../Models/db.client';
 import { MYKEY } from './wordRouter';
@@ -10,6 +10,22 @@ function WordDB() {
 		WordService = new WordDao(checkDbConnection());
 	}
 	return WordService;
+}
+
+export async function checkWordGuess(req: Request, res: Response) {
+	const { word, row } = req.body;
+	const plaintext = decryption(word, MYKEY).toUpperCase();
+
+	let ans = row.map((element: { inputId: number; inputValue: string }, index: number) => {
+		if (element.inputValue === plaintext[index]) {
+			return 'bull';
+		} else if (plaintext.includes(element.inputValue)) {
+			return 'cow';
+		} else {
+			return 'wrong';
+		}
+	});
+	res.send(ans);
 }
 
 export async function getRandomWord(req: Request, res: Response) {

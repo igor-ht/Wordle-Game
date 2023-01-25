@@ -18,6 +18,6 @@
 		"types": ["node", "cypress"],
 		"experimentalDecorators": true
 	},
-	"include": ["./node_modules/cypress", "./**/*.tsx"],
+	"include": ["./node_modules/cypress", "./**/*.tsx", "src/newApi.ts", "src/Services/wordleApi.ts", "src/Services/cryptoData.ts", "src/Context/wordleContext.ts"],
 	"exclude": ["**/*.test.ts", "**/*.spec.ts", "**/*.cy.ts"]
 }

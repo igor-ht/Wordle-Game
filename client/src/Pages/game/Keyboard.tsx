@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import WordleContext from '../../Context/wordleContext';
 
 const KeyboardConstructor = () => {
-	const { keyboardInput } = useContext(WordleContext);
+	const { handleDigitalKeyboardInput, buttonsContainerRef } = useContext(WordleContext);
 
 	const keyboardArray = [
 		'Q',
@@ -36,7 +36,7 @@ const KeyboardConstructor = () => {
 	];
 
 	return (
-		<div className="keyboard">
+		<div ref={buttonsContainerRef} className="keyboard">
 			{keyboardArray.map((char) => {
 				if (char === 'Enter') {
 					return (
@@ -45,7 +45,7 @@ const KeyboardConstructor = () => {
 							className="enter"
 							key={char}
 							id={char}
-							onClick={keyboardInput}
+							onClick={handleDigitalKeyboardInput}
 							disabled>
 							<p>{char}</p>
 						</button>
@@ -57,7 +57,7 @@ const KeyboardConstructor = () => {
 							className="backSpace"
 							key={char}
 							id={char}
-							onClick={keyboardInput}>
+							onClick={handleDigitalKeyboardInput}>
 							<p>{char}</p>
 						</button>
 					);
@@ -67,7 +67,7 @@ const KeyboardConstructor = () => {
 							type="button"
 							key={char}
 							id={char}
-							onClick={keyboardInput}
+							onClick={handleDigitalKeyboardInput}
 							style={{ maxWidth: '100%' }}>
 							<p>{char}</p>
 						</button>

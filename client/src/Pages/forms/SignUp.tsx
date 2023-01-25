@@ -1,11 +1,9 @@
-import { RefObject, useContext, useRef } from 'react';
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import WordleContext from '../../Context/wordleContext';
 
 function SignUp() {
-	const { handleUserRegistration } = useContext(WordleContext);
-
-	const formRef: RefObject<HTMLFormElement> = useRef(null);
+	const { handleUserRegistration, RegistrationFormRef } = useContext(WordleContext);
 
 	return (
 		<section className="vh-100 bg-image overflow-auto">
@@ -18,12 +16,12 @@ function SignUp() {
 									<h2 className="text-uppercase text-center mb-5">Create an account</h2>
 
 									<form
-										ref={formRef}
+										ref={RegistrationFormRef}
 										className="form-control-sm"
 										onSubmit={(event) => {
 											event.stopPropagation();
 											event.preventDefault();
-											handleUserRegistration(formRef.current);
+											handleUserRegistration(RegistrationFormRef.current);
 										}}>
 										<div className="row">
 											<div className="form-outline mb-4 col">
