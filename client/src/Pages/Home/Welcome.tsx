@@ -29,9 +29,7 @@ function Welcome() {
 					<div className="card-header fs-2 border-success">Sign Up &#128077;</div>
 					<div className="card-body">
 						<h5 className="card-title fs-4">Create a free account and enjoy more!</h5>
-						<p className="card-text fs-5">
-							Play with other players, challenge your friends and be the King of Word Guessing.
-						</p>
+						<p className="card-text fs-5">Play with other players, challenge your friends and be the King of Word Guessing.</p>
 						<br />
 						<Link
 							to={'/sign-up'}

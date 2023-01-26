@@ -149,13 +149,13 @@ function WordleApi() {
 		updateInputStatus(inputRow);
 		updateButtonStatus(inputRow);
 		if (inputRow.every((el) => el.inputStatus === 'bull')) {
-			setTimeout(() => {
+			return setTimeout(() => {
 				alert(`Victory, ${user.name}! You got the right word!`);
 				restartGame();
 			}, 500);
 		}
 		if (inputRow === gameState.statePicture[5]) {
-			setTimeout(() => {
+			return setTimeout(() => {
 				alert(`Wrong word, ${user.name}. Try again!`);
 				restartGame();
 			}, 500);
@@ -249,8 +249,7 @@ function WordleApi() {
 	async function handleUserRegistration(formRef: HTMLFormElement) {
 		try {
 			const inputs = formRef.getElementsByTagName('input') as HTMLCollectionOf<HTMLInputElement>;
-			if (!inputs[0].value || !inputs[1].value || !inputs[2].value || !inputs[3].value)
-				alert('User Registration not valid');
+			if (!inputs[0].value || !inputs[1].value || !inputs[2].value || !inputs[3].value) alert('User Registration not valid');
 			const newUser = {
 				name: inputs[0].value,
 				email: inputs[1].value,

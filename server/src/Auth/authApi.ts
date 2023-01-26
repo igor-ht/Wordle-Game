@@ -15,7 +15,7 @@ export function verifyJWT<T = JwtPayload>(token: string): T {
 	return jwt.verify(token, MY_JWT_KEY) as T;
 }
 
-export function MiddlewareUserAuth(req: Request, res: Response, next: NextFunction) {
+export function MiddlewareAuth(req: Request, res: Response, next: NextFunction) {
 	const token = req.headers.token as string;
 	if (!token) next(new Error('No token provided'));
 

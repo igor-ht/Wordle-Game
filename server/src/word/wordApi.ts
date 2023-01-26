@@ -44,7 +44,7 @@ export async function postNewWord(req: Request, res: Response) {
 	}
 }
 
-export async function getUserByID(req: Request, res: Response) {
+export async function getWordByID(req: Request, res: Response) {
 	const wordId = +req.params.id;
 	const result = await WordDB().read(wordId);
 	res.status(200).send(result);
