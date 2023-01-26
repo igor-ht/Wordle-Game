@@ -16,7 +16,9 @@ function SignIn() {
 									<h2 className="text-uppercase text-center text- mb-5">Login into account</h2>
 
 									<form
-										ref={LoginFormRef}
+										ref={(el) => {
+											LoginFormRef.current = el;
+										}}
 										className="form-control-sm"
 										onSubmit={(event) => {
 											event.stopPropagation();
@@ -26,16 +28,16 @@ function SignIn() {
 										<div className="row">
 											<div className="form-outline mb-4 col">
 												<input
-													type="text"
+													type="email"
 													name="email"
-													id="form3Example1cg"
+													id="email"
 													className="form-control form-control-lg border-primary"
 													title="email"
 													required
 												/>
 												<label
 													className="form-label fs-6"
-													htmlFor="form3Example1cg">
+													htmlFor="email">
 													Your Email
 												</label>
 											</div>
@@ -46,14 +48,14 @@ function SignIn() {
 												<input
 													type="password"
 													name="password"
-													id="form3Example4cg"
+													id="password"
 													className="form-control form-control-lg border-primary"
 													title="password"
 													required
 												/>
 												<label
 													className="form-label fs-6"
-													htmlFor="form3Example4cg">
+													htmlFor="password">
 													Password
 												</label>
 											</div>

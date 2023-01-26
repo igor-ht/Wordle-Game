@@ -16,7 +16,9 @@ function SignUp() {
 									<h2 className="text-uppercase text-center mb-5">Create an account</h2>
 
 									<form
-										ref={RegistrationFormRef}
+										ref={(el) => {
+											RegistrationFormRef.current = el;
+										}}
 										className="form-control-sm"
 										onSubmit={(event) => {
 											event.stopPropagation();
@@ -28,13 +30,13 @@ function SignUp() {
 												<input
 													type="text"
 													name="name"
-													id="form3Example1cg"
+													id="name"
 													className="form-control form-control-lg border-success"
 													required
 												/>
 												<label
 													className="form-label"
-													htmlFor="form3Example1cg">
+													htmlFor="name">
 													Your Name
 												</label>
 											</div>
@@ -43,13 +45,13 @@ function SignUp() {
 												<input
 													type="email"
 													name="email"
-													id="form3Example3cg"
+													id="email"
 													className="form-control form-control-lg border-success"
 													required
 												/>
 												<label
 													className="form-label"
-													htmlFor="form3Example3cg">
+													htmlFor="email">
 													Your Email
 												</label>
 											</div>
@@ -60,13 +62,13 @@ function SignUp() {
 												<input
 													type="password"
 													name="password"
-													id="form3Example4cg"
+													id="password"
 													className="form-control form-control-lg border-success"
 													required
 												/>
 												<label
 													className="form-label"
-													htmlFor="form3Example4cg">
+													htmlFor="password">
 													Password
 												</label>
 											</div>
@@ -75,13 +77,13 @@ function SignUp() {
 												<input
 													type="password"
 													name="confirmpassword"
-													id="form3Example4cdg"
+													id="confirmpassword"
 													className="form-control form-control-lg border-success"
 													required
 												/>
 												<label
 													className="form-label"
-													htmlFor="form3Example4cdg">
+													htmlFor="confirmpassword">
 													Repeat your password
 												</label>
 											</div>

@@ -1,5 +1,5 @@
-import WordleContext from '../../src/Context/wordleContext';
 import { mount } from 'cypress/react18';
+import WordleContext from '../../src/Context/wordleContext';
 import KeyboardConstructor from '../../src/Pages/Game/Keyboard';
 import InputConstructor from '../../src/Pages/Game/Input';
 
