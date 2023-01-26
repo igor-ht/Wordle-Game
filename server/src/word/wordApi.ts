@@ -16,7 +16,7 @@ export async function checkWordGuess(req: Request, res: Response) {
 	const { word, row } = req.body;
 	const plaintext = decryption(word, MYKEY).toUpperCase();
 
-	let ans = row.map((element: { inputId: number; inputValue: string }, index: number) => {
+	const ans = row.map((element: { inputId: number; inputValue: string }, index: number) => {
 		if (element.inputValue === plaintext[index]) {
 			return 'bull';
 		} else if (plaintext.includes(element.inputValue)) {

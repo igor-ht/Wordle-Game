@@ -18,8 +18,7 @@ export async function userLogin(req: Request, res: Response) {
 	const user = await UserDB().find(email);
 	const plaintext = decryption(user.password, MYKEY);
 
-	if (user.email + '' !== email + '' || plaintext + '' !== password + '')
-		return res.status(400).send('Email or Password not valid.');
+	if (user.email + '' !== email + '' || plaintext + '' !== password + '') return res.status(400).send('Email or Password not valid.');
 
 	const token = createToken(user);
 	res.status(200).send({ token: token, email: user.email, name: user.name });

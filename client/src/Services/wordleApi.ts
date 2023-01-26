@@ -31,7 +31,7 @@ function WordleApi() {
 	const RegistrationFormRef = createRef<HTMLFormElement>();
 
 	const [user, setUser] = useState<IUserData>({
-		name: 'Guest',
+		name: localStorage.getItem('name') || 'Guest',
 		email: '',
 	});
 
@@ -299,7 +299,8 @@ function WordleApi() {
 			});
 
 			const { token, name, email } = await res.json();
-			localStorage.setItem('jwt', token);
+			localStorage.setItem('accessToken', token);
+			localStorage.setItem('name', name);
 			setUser({ name: name, email: email });
 			navigate('/play');
 		} catch (error) {

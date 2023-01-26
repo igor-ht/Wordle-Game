@@ -39,10 +39,9 @@ export class UserDao implements ICrudDao<IDisplayUser, IUser> {
 	}
 
 	public async read(id: number): Promise<IDisplayUser> {
-		const res = await this.db.query(
-			'SELECT uname as "User Name", uemail as "User Email", uregistration as "User Registration" FROM users WHERE uid = $1',
-			[id]
-		);
+		const res = await this.db.query('SELECT uname as "User Name", uemail as "User Email", uregistration as "User Registration" FROM users WHERE uid = $1', [
+			id,
+		]);
 		const row = await res.rows[0];
 		return row;
 	}
@@ -64,10 +63,7 @@ export class UserDao implements ICrudDao<IDisplayUser, IUser> {
 	}
 
 	public async find(email: string) {
-		const res = await this.db.query(
-			'SELECT  uname as "name", uemail as "email", upassword as "password" FROM users WHERE uemail = $1',
-			[email]
-		);
+		const res = await this.db.query('SELECT  uname as "name", uemail as "email", upassword as "password" FROM users WHERE uemail = $1', [email]);
 		const row = await res.rows[0];
 		return row;
 	}

@@ -51,8 +51,9 @@ function HomePage() {
 						type="button"
 						className="btn btn-outline-secondary btn-sm"
 						onClick={() => {
-							let new_user = { name: 'Guest', password: '' };
+							let new_user = { name: 'Guest', email: '' };
 							setUser(new_user);
+							localStorage.clear();
 						}}>
 						Sign out
 					</button>
