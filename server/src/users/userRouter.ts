@@ -12,8 +12,6 @@ userRouter.post('/create', validateUser, createNewUser);
 
 userRouter.post('/login', userLogin);
 
-userRouter.use(MiddlewareAuth);
-
 userRouter.get('/find/:email', validateEmail, getUserByEmail);
 
 userRouter.get('/:id', validateID, getUserByID);
@@ -21,5 +19,7 @@ userRouter.get('/:id', validateID, getUserByID);
 userRouter.put('/updateUser', validadeUserUpdate, updateUser);
 
 userRouter.delete('/deleteUser', validateID, deleteUser);
+
+userRouter.use(MiddlewareAuth);
 
 export default userRouter;

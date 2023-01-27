@@ -11,8 +11,6 @@ wordRouter.get('/randWord', getRandomWord);
 
 wordRouter.post('/checkGuess', checkWordGuess);
 
-wordRouter.use(MiddlewareAuth);
-
 wordRouter.post('/newWord', postNewWord);
 
 wordRouter.get('/:id', getWordByID);
@@ -20,5 +18,7 @@ wordRouter.get('/:id', getWordByID);
 wordRouter.put('/updateWord', updateWord);
 
 wordRouter.delete('/deleteWord', deleteWord);
+
+wordRouter.use(MiddlewareAuth);
 
 export default wordRouter;

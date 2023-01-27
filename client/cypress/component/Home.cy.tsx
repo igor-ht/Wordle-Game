@@ -5,7 +5,7 @@ import HomePage from '../../src/Pages/Home/Home';
 import Welcome from '../../src/Pages/Home/Welcome';
 
 describe('HomePage and Welcome components', () => {
-	describe.only('HomePage component testing', () => {
+	describe('HomePage component testing', () => {
 		beforeEach(() => {
 			const user = { name: 'Test', email: '' };
 			const setUser = cy.stub();
