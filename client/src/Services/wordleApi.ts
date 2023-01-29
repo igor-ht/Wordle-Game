@@ -298,7 +298,7 @@ function WordleApi() {
 			});
 
 			const { token, name, email } = await res.json();
-			localStorage.setItem('accessToken', token);
+			localStorage.setItem('token', token);
 			localStorage.setItem('name', name);
 			setUser({ name: name, email: email });
 			navigate('/play');
